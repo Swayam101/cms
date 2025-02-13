@@ -1,0 +1,43 @@
+.NavLinkBody {
+  border-radius: 6px;
+  background-color: #165487;
+  color: white !important;
+  &:hover {
+    background-color: #286291;
+  }
+}
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.hiddenButton {
+  width: 5px;
+  background-color: #165487;
+  border-radius: 0px 4px 4px 0px;
+}
+.navButtons {
+  width: 100%;
+  margin: 0px 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: black;
+  padding: 8px;
+  font-size: 14px;
+}
+.burgerForMobile {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+.box {
+  background-color: #dc5c4d;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+}

@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 16px;
+  gap: 32px;
+}
+.cardRoot {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  row-gap: 24px;
+  column-gap: 10px;
+}
+.dateInput {
+  border: 1px solid #d8d8d8;
+  background-color: #f1f4f9;
+  color: #000;
+  border-radius: 8px;
+  font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+.dateLabel {
+  font-family: "Nunito", system-ui;
+  font-weight: 700;
+  font-size: 16px;
+  color: #202224cc;
+}
+.rootInput {
+  font-family: "Nunito", system-ui;
+  width: 24rem;
+}

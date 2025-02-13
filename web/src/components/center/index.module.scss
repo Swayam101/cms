@@ -1,0 +1,10 @@
+.root{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 4px 16px;
+}
+.headerBlock{
+    display: flex;
+    justify-content: flex-end;
+}
