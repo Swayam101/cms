@@ -5,21 +5,21 @@ import { request } from "../../services/axios.service";
 type TProps = {
   page: number;
   limit: number;
-  sort?: object;
+  // sort?: object;
   search?: string;
 };
-const getAllAdmin = async ({ page, sort, search, limit }: TProps) => {
+const getAllUploadLogs = async ({ page, search, limit }: TProps) => {
   const res: IServerResponse = await request({
-    url: API_URLS.ADMIN.getAllAdmin,
-    method: "POST",
-    data: { page, sort, search, limit },
+    url: API_URLS.ADMIN.GET_ALL_LOGS,
+    method: "GET",
+    params: { page, search, limit },
   });
   return res;
 };
 
-export const useGetAllAdmin = (data: TProps) => {
+export const useGetAllUploadLogs = (data: TProps) => {
   return useQuery({
-    queryKey: ["admin", "all", data],
-    queryFn: () => getAllAdmin(data),
+    queryKey: ["customers", "upload-logs", "all", data],
+    queryFn: () => getAllUploadLogs(data),
   });
 };

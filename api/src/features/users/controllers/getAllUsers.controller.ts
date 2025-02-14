@@ -11,5 +11,8 @@ export default async (_req: Request, res: Response) => {
     statusCode: 200,
     title: "USERS FETCH",
     message: "Users fetched successfully",
+    data: {
+      users,
+    },
   });
 };

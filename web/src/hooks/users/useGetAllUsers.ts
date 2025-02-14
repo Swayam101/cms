@@ -11,7 +11,7 @@ type TProps = {
 const getAllUser = async ({ page, sort, search, limit }: TProps) => {
   const res: IServerResponse = await request({
     url: API_URLS.USERS.getAllUser,
-    method: "POST",
+    method: "GET",
     data: { page, sort, search, limit },
   });
   return res;

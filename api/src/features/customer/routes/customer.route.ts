@@ -7,6 +7,24 @@ import multerLib from "../lib/multer.lib";
 
 const customerRoute = Router();
 
+customerRoute.get(
+  "/",
+  middlewares.checkAdminAccess,
+  customerControllers.getAllCustomers
+);
+
+customerRoute.get(
+  "/one",
+  middlewares.checkAdminAccess,
+  customerControllers.getCustomerById
+);
+
+customerRoute.get(
+  "/logs",
+  middlewares.checkAdminAccess,
+  customerControllers.getUploadLogs
+);
+
 customerRoute.post(
   "/upload",
   middlewares.checkAdminAccess,
@@ -18,7 +36,6 @@ customerRoute.post(
   "/verify",
   middlewares.checkAdminAccess,
   multerLib,
-
   customerControllers.validateCustomerData
 );
 

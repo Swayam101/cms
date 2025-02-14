@@ -5,7 +5,7 @@ enum ROUTES {
   USER_TABLE_PAGE = "/user",
   BULK_BOOKING = "/bulk-booking",
   CENTER_TABLE_PAGE = "/center",
-  COURT_TABLE_PAGE = "/court",
+  CUSTOMER_TABLE_PAGE = "/customers",
   REPORT_PAGE = "/report",
   CALENDER = "/booking-calender",
   LIST_BOOKING = "/booking-list",

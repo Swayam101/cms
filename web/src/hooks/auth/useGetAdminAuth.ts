@@ -7,19 +7,11 @@ import { store } from "../../app/store";
 import { setAdminData } from "../../app/reducers/user-data/adminData-reducer";
 
 const getAdminData = async () => {
-  const response: IServerResponse = await request({
-    url: API_URLS.AUTH_ADMIN.GET_ROLE,
-    method: "GET",
-  });
-  if (response.status === "success") {
-    store.dispatch(setAdminData(response.data));
-  } else {
-    return;
-  }
   const res: IServerResponse = await request({
     url: API_URLS.AUTH_ADMIN.getAdminData,
     method: "GET",
   });
+
   store.dispatch(setAdminData(res.data));
   if (res.status === "success" && window.location.pathname === ROUTES.LOGIN) {
     window.location.href = ROUTES.DASHBOARD;

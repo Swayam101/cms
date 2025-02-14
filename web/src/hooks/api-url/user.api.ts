@@ -1,5 +1,5 @@
 const prefix = "/admin";
 export const usersApis = {
-  getAllUser: prefix + "/users",
+  getAllUser: "/user" + "/all",
   changeStatus: prefix + "/user/status",
 };

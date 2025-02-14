@@ -3,15 +3,14 @@ import { ENV } from "../env/index.env";
 import { showNotification } from "@mantine/notifications";
 import ROUTES from "../enum/routes.enum";
 import { IServerResponse } from "../interfaces/serverResponse.interface";
-import { store } from "../app/store";
-import { ADMIN_ROLES } from "../enum/admin.enum";
 
 const client = axios.create({
   baseURL: ENV.VITE_APP_API,
-  withCredentials: true,
 });
 
 export const request = async (options: AxiosRequestConfig<any>) => {
+  const token = localStorage.getItem("token");
+  client.defaults.headers.common.authorization = `Bearer ${token}`;
   const onSuccess = (response: AxiosResponse) =>
     ({
       ...response.data,
@@ -34,15 +33,10 @@ export const request = async (options: AxiosRequestConfig<any>) => {
 
     return error.response.data as IServerResponse;
   };
-  const role = store.getState().userData.userData.role;
-  const isCentreManager = ADMIN_ROLES.CENTRE_MANAGER === role;
 
   try {
     const res = await client({
       ...options,
-      url: isCentreManager
-        ? options.url?.replace("/admin/", "/centre-manager/")
-        : options.url,
     });
     return onSuccess(res);
   } catch (error) {

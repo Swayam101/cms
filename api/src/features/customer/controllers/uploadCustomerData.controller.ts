@@ -4,6 +4,9 @@ import csv from "csv-parser";
 import { JsonResponse } from "../../../utils/jsonResponse.utils";
 import customerValidators from "../validators/customer.validators";
 import customerDaos from "../dao/customer.daos";
+import CustomerModel from "../models/customer.model";
+import { ICustomer } from "../interfaces/customer.interface";
+import { ValidationError } from "yup";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -11,60 +14,76 @@ export default async (req: Request, res: Response) => {
       return JsonResponse(res, {
         status: "error",
         statusCode: 400,
-        message: "Please try agian later",
+        message: "Please try again later",
         title: "Unable to upload file",
       });
     }
-    const { path: filePath } = (req as any).file;
 
-    let totalUploads = 0;
+    const { path: filePath } = (req as any).file;
+    const records: ICustomer[] = [];
+    const errorRows: { row: number; errors: string }[] = [];
 
     fs.createReadStream(filePath)
       .pipe(csv())
-      .on("data", async (row) => {
-        if (
-          !customerValidators.addCustomer.validate({
-            name: row.name,
-            phone: row.phone,
-            email: row.email,
-          })
-        ) {
-          return JsonResponse(res, {
-            status: "error",
-            statusCode: 400,
-            message: "customer not added",
-            title: "Data not inserted",
-          });
-        }
-        const inserted = await customerDaos.customer.addCustomer({
-          name: row.name,
-          phone: row.phone,
-          email: row.email,
-        });
-        if (!inserted) {
-          return JsonResponse(res, {
-            status: "error",
-            statusCode: 400,
-            message: "customer not added",
-            title: "Data not inserted",
-          });
-        }
-        totalUploads++;
+      .on("data", (row) => {
+        records.push(row);
       })
-      .on("end", () => {
+      .on("end", async () => {
         fs.unlink(filePath, () => {});
-        customerDaos.customerUpload
-          .createLog({
-            totalUploads,
+
+        let totalUploads = 0;
+
+        await Promise.all(
+          records.map(async (row, index) => {
+            const validation = customerValidators.addCustomer.isValidSync(row);
+            let val: any;
+            try {
+              val = customerValidators.addCustomer.validateSync(row);
+            } catch (error) {
+              val = (error as ValidationError).errors[0];
+            }
+            if (!validation) {
+              errorRows.push({
+                row: index + 1,
+                errors: val,
+              });
+              return;
+            }
+
+            const existingCustomer = await CustomerModel.findOne({
+              phone: row.phone,
+            });
+
+            if (existingCustomer) {
+              errorRows.push({
+                row: index + 1,
+                errors: "Phone number already exists in the database",
+              });
+              return;
+            }
+
+            await customerDaos.customer.addCustomer(row);
+            totalUploads++;
           })
-          .then(() => {
-            console.log("data uploaded : ", totalUploads, " customers");
+        );
+
+        if (errorRows.length > 0) {
+          return JsonResponse(res, {
+            status: "error",
+            statusCode: 400,
+            message: "Some rows contain errors",
+            title: "Validation Failed",
+            data: errorRows,
           });
+        }
+
+        await customerDaos.customerUpload.createLog({ totalUploads });
+
         return JsonResponse(res, {
           status: "success",
           statusCode: 200,
-          message: "customers added successfully",
-          title: "Data Inserted successfully",
+          message: `${totalUploads} customers added successfully`,
+          title: "Data Inserted Successfully",
         });
       })
       .on("error", (err: Error) => {

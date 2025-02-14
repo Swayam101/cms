@@ -1,63 +1,102 @@
-import { Flex, Group } from "@mantine/core";
+import { Flex, Group, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { memo } from "react";
+import { memo, useState } from "react";
 import FButton from "../../../ui/button/FButton";
 import { getAdminInitialValues } from "../../../initial-values/admin.initialValues";
 import { IAdminForm } from "../../../types";
 import { modals } from "@mantine/modals";
 import { useuploadCustomerData } from "../../../hooks/admin/useUploadCustomerData";
 import { notifications } from "@mantine/notifications";
-import { Text } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { IconUpload, IconX, IconFileText } from "@tabler/icons-react";
+import { Dropzone } from "@mantine/dropzone";
+import { Modals } from "../Fmodals";
+import UploadErrorsModal from "../../../components/uploads/UploadErrorsModal";
+import { useverifyCustomerData } from "../../../hooks/admin/useVerifyCustomerData";
 
 interface IProps {
   isUpload: boolean;
 }
 
-const UploadLogsModel: React.FC<IProps> = () => {
+const UploadLogsModel: React.FC<IProps> = ({ isUpload }) => {
   const { mutateAsync, isPending } = useuploadCustomerData();
+  const { mutateAsync: mutateVerify, isPending: mutatePending } =
+    useverifyCustomerData();
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const form = useForm<IAdminForm>({
     initialValues: getAdminInitialValues,
   });
 
   const handleSubmit = async (values: IAdminForm) => {
-    const formData = new FormData();
-
-    if (values.image) {
-      values.image.forEach((image: { croppedImg: Blob; filename: string }) => {
-        if (image.filename) {
-          formData.append("admin-profile", image.croppedImg, image.filename);
-        }
+    if (!values.file) {
+      return notifications.show({
+        message: "File is required",
+        color: "red",
       });
     }
-    const res = await mutateAsync(formData as unknown as IAdminForm);
+
+    const formData = new FormData();
+    formData.append("file", values.file);
+
+    let res = isUpload
+      ? await mutateAsync(formData as unknown as IAdminForm)
+      : await mutateVerify(formData as unknown as IAdminForm);
     if (res.status === "error") {
-      // modals.closeAll();
+      if (!isUpload) {
+        Modals({
+          children: (
+            <UploadErrorsModal
+              errors={res.data}
+              isLoading={isPending || mutatePending}
+            />
+          ),
+          title: isUpload ? "Upload Customer Data" : "Verify Data File",
+        });
+      }
       return notifications.show({
         message: res.message,
         title: res.title,
         color: "red",
       });
     }
+
     notifications.show({
       message: res.message,
       title: res.title,
       color: "green",
     });
 
-    return modals.closeAll();
+    modals.closeAll();
   };
 
   return (
-    <form onSubmit={form.onSubmit((e) => handleSubmit(e))}>
-      <Flex m={"lg"} gap={"md"} direction={"column"}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      <Flex m="lg" gap="md" direction="column">
         <Dropzone
-          onDrop={(files) => console.log("accepted files", files)}
-          onReject={(files) => console.log("rejected files", files)}
-          maxSize={5 * 1024 ** 2}
-          accept={IMAGE_MIME_TYPE}
+          maxSize={5 * 1024 ** 2} // 5MB max
+          accept={["text/csv"]}
+          onDrop={(files) => {
+            if (files.length > 0) {
+              const file = files[0];
+              if (file.type !== "text/csv") {
+                notifications.show({
+                  title: "Invalid file type",
+                  message: "Only CSV files are allowed.",
+                  color: "red",
+                });
+                return;
+              }
+              form.setFieldValue("file", file);
+              setUploadedFile(file);
+            }
+          }}
+          onReject={() => {
+            notifications.show({
+              title: "File rejected",
+              message: "Ensure the file is a CSV and below 5MB.",
+              color: "red",
+            });
+          }}
         >
           <Group
             justify="center"
@@ -80,7 +119,7 @@ const UploadLogsModel: React.FC<IProps> = () => {
               />
             </Dropzone.Reject>
             <Dropzone.Idle>
-              <IconPhoto
+              <IconFileText
                 size={52}
                 color="var(--mantine-color-dimmed)"
                 stroke={1.5}
@@ -88,24 +127,34 @@ const UploadLogsModel: React.FC<IProps> = () => {
             </Dropzone.Idle>
 
             <div>
-              <Text size="xl" inline>
-                Drag images here or click to select files
-              </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
-                Attach as many files as you like, each file should not exceed
-                5mb
+              <Text size="xl">Drag CSV file here or click to select</Text>
+              <Text size="sm" color="dimmed" mt={7}>
+                Only CSV files up to 5MB are allowed.
               </Text>
             </div>
           </Group>
         </Dropzone>
+
+        {/* Show uploaded file name */}
+        {uploadedFile && (
+          <Text size="sm" mt="sm">
+            <strong>Uploaded File:</strong> {uploadedFile.name}
+          </Text>
+        )}
+
         <Group mt="md" justify="end">
-          <Flex gap={"md"} miw={420}>
+          <Flex gap="md" miw={420}>
             <FButton
               variant="outline"
               onClick={() => modals.closeAll()}
               label="Cancel"
             />
-            <FButton variant="filled" type="submit" label={"Submit"} />
+            <FButton
+              loading={isPending}
+              variant="filled"
+              type="submit"
+              label="Submit"
+            />
           </Flex>
         </Group>
       </Flex>

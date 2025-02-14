@@ -4,18 +4,18 @@ import { IServerResponse } from "../../interfaces/serverResponse.interface";
 import { request } from "../../services/axios.service";
 import { IAdminForm } from "../../types";
 
-const uploadCustomerData = async (data: IAdminForm) => {
+const verifyCustomerData = async (data: IAdminForm) => {
   const res: IServerResponse = await request({
-    url: API_URLS.ADMIN.UPLOAD_CUSTOMER,
+    url: API_URLS.ADMIN.VERIFY_CUSTOMER,
     method: "POST",
     data,
   });
   return res;
 };
 
-export const useuploadCustomerData = () => {
+export const useverifyCustomerData = () => {
   return useMutation({
-    mutationKey: ["admin", "createOrUpdate"],
-    mutationFn: uploadCustomerData,
+    mutationKey: ["admin", "verify"],
+    mutationFn: verifyCustomerData,
   });
 };

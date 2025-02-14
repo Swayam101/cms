@@ -4,8 +4,9 @@ import { useGetAdminData } from "../hooks/auth/useGetAdminAuth";
 
 const ProtectedRoute = () => {
   const { isLoading, data } = useGetAdminData();
-
-  return <Layout loading={isLoading} />;
+  if (!isLoading && data?.status === "success")
+    return <Layout loading={false} />;
+  else return <Layout loading={isLoading} />;
 };
 
 export default memo(ProtectedRoute);

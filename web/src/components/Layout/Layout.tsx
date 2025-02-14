@@ -19,6 +19,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "../../enum/routes.enum";
 import { useLogoutMutation } from "../../hooks/auth/useAdminLogout";
 import classes from "./components/index.module.scss";
+import FTypography from "../../ui/typography/FTypography";
 const Layout = ({ loading }: { loading: boolean }) => {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
@@ -78,7 +79,7 @@ const Layout = ({ loading }: { loading: boolean }) => {
           direction="column"
           gap="xs"
         >
-          <img src={Assets.Icons.HeaderLogo} alt="Header Logo" width={115} />
+          <FTypography fontSize={"32px"} text="My CMS" variant="oswald500" />
           <Space h={"sm"} />
           <SideBarButton
             label="Dashboard"
@@ -86,28 +87,6 @@ const Layout = ({ loading }: { loading: boolean }) => {
             Icon={Assets.Icons.dashboard}
             active={router.pathname === ROUTES.DASHBOARD}
           />
-
-          <>
-            <SideBarButton
-              label="Upload"
-              link={ROUTES.ADMIN_TABLE_PAGE}
-              Icon={Assets.Icons.admin}
-              active={router.pathname === ROUTES.ADMIN_TABLE_PAGE}
-            />
-            <SideBarButton
-              label="User"
-              link={ROUTES.USER_TABLE_PAGE}
-              Icon={Assets.Icons.user}
-              active={router.pathname === ROUTES.USER_TABLE_PAGE}
-            />
-            <SideBarButton
-              label="Bulk Booking"
-              link={ROUTES.BULK_BOOKING}
-              Icon={Assets.Icons.user}
-              active={router.pathname === ROUTES.BULK_BOOKING}
-            />
-          </>
-
           <NavLink
             leftSection={<Assets.Icons.Manage />}
             px="xl"
@@ -119,20 +98,35 @@ const Layout = ({ loading }: { loading: boolean }) => {
             }}
           >
             <SideBarButton
-              label="Manage Center"
-              link={ROUTES.CENTER_TABLE_PAGE}
-              Icon={Assets.Icons.manageCenter}
-              active={router.pathname === ROUTES.CENTER_TABLE_PAGE}
-              showSideBar={false}
+              label="User"
+              link={ROUTES.USER_TABLE_PAGE}
+              Icon={Assets.Icons.user}
+              active={router.pathname === ROUTES.USER_TABLE_PAGE}
             />
+
             <SideBarButton
-              label="Manage Courts"
-              link={ROUTES.COURT_TABLE_PAGE}
+              label="Customers"
+              link={ROUTES.CUSTOMER_TABLE_PAGE}
               Icon={Assets.Icons.manageCourt}
               showSideBar={false}
-              active={router.pathname === ROUTES.COURT_TABLE_PAGE}
+              active={router.pathname === ROUTES.CUSTOMER_TABLE_PAGE}
             />
           </NavLink>
+          <>
+            <SideBarButton
+              label="Upload"
+              link={ROUTES.ADMIN_TABLE_PAGE}
+              Icon={Assets.Icons.admin}
+              active={router.pathname === ROUTES.ADMIN_TABLE_PAGE}
+            />
+
+            <SideBarButton
+              label="Bulk Booking"
+              link={ROUTES.BULK_BOOKING}
+              Icon={Assets.Icons.user}
+              active={router.pathname === ROUTES.BULK_BOOKING}
+            />
+          </>
 
           {/* {isCenterManager && (
             <SideBarButton
@@ -154,6 +148,13 @@ const Layout = ({ loading }: { loading: boolean }) => {
               },
             }}
           >
+            <SideBarButton
+              label="Users"
+              link={ROUTES.CENTER_TABLE_PAGE}
+              Icon={Assets.Icons.manageCenter}
+              active={router.pathname === ROUTES.CENTER_TABLE_PAGE}
+              showSideBar={false}
+            />
             <SideBarButton
               label="List"
               link={ROUTES.LIST_BOOKING}

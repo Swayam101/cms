@@ -1,6 +1,6 @@
 import React, { memo, useMemo, useState } from "react";
 import classes from "./index.module.scss";
-import { Box } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
 import SearchInput from "../../ui/input/search-input/SearchInput";
 import FButton from "../../ui/button/FButton";
 import Sort from "../../assets/icons/sort";
@@ -9,6 +9,7 @@ import { userTable } from "../../constants/UserTable";
 import { useGetAllUser } from "../../hooks/users/useGetAllUsers";
 import { useDebouncedValue } from "@mantine/hooks";
 import { CONSTANTS } from "../Dynamic-Table/types/constants";
+import { IconEdit } from "@tabler/icons-react";
 const UserPage: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [sorted, setSorted] = useState(false);
@@ -21,31 +22,39 @@ const UserPage: React.FC = () => {
     limit: CONSTANTS.PAGE_LIMIT,
   });
   const allUser = useMemo(() => {
-    if (data?.data && !isLoading) return data?.data?.data as [];
+    if (data?.data && !isLoading) return data?.data?.users as [];
     return [];
   }, [data, isLoading, activePage]);
   return (
     <Box className={classes.root}>
-      <Box className={classes.left}>
-        <SearchInput
-          placeholder="Search User"
-          formHandler={{
-            value: searchQuery,
-            onChange: (eve) => {
-              setActivePage(1);
-              setSearchQuery(eve.currentTarget.value);
-            },
-          }}
-        />
+      <Flex align={"center"} gap={24}>
+        <Box className={classes.left}>
+          <SearchInput
+            placeholder="Search User"
+            formHandler={{
+              value: searchQuery,
+              onChange: (eve) => {
+                setActivePage(1);
+                setSearchQuery(eve.currentTarget.value);
+              },
+            }}
+          />
+          <FButton
+            icon={<Sort />}
+            label="Sort"
+            onClick={async () => {
+              setSorted(!sorted);
+            }}
+            variant="smallBtn"
+          />
+        </Box>
+
         <FButton
-          icon={<Sort />}
-          label="Sort"
-          onClick={async () => {
-            setSorted(!sorted);
-          }}
-          variant="smallBtn"
+          label="Create New User"
+          variant={"smallBtn"}
+          icon={<IconEdit />}
         />
-      </Box>
+      </Flex>
       <DefaultTable
         columns={userTable as TTableColumns<unknown>[]}
         data={allUser}

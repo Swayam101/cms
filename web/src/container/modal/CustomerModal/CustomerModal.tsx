@@ -7,47 +7,38 @@ import { modals } from "@mantine/modals";
 import FInput from "../../../ui/input/finput/FInput";
 import FButton from "../../../ui/button/FButton";
 
-import { ICourtForm } from "../../../types";
-import { convertTo24HourFormat } from "../../../utils/timeUtils";
-import useCreateUpdateCourt from "../../../hooks/court/useCreateUpdateCourt";
-import courtInitialValues from "../../../initial-values/court.initialValues";
-import { createUpdateCourtValidation } from "../../../validations/court.validation";
-import useGetCourtById from "../../../hooks/court/useGetCourtById";
+import { ICustomerData } from "../../../types";
+import useCreateUpdateCourt from "../../../hooks/court/useCreateUpdateCustomer";
+import customerInitialValues from "../../../initial-values/customer.initialValues";
+import { createUpdateCustomerValidation } from "../../../validations/customer.validation";
+import useGetCustomerById from "../../../hooks/court/useGetCustomerById";
 import { queryClient } from "../../../client/queryClient";
 
 interface ICreateCentreProps {
   isCreateModal: boolean;
-  courtId?: string;
-  centreId?: string;
+  id?: string;
 }
 
-const CourtModal: React.FC<ICreateCentreProps> = ({
-  isCreateModal,
-  courtId,
-  centreId,
-}) => {
-  const { data, isLoading } = useGetCourtById(courtId ?? "");
+const CustomerModal: React.FC<ICreateCentreProps> = ({ isCreateModal, id }) => {
+  const { data, isLoading } = useGetCustomerById(id ?? "");
   const { mutateAsync, isPending } = useCreateUpdateCourt();
 
   const form = useForm({
-    initialValues: courtInitialValues,
-    validate: yupResolver(createUpdateCourtValidation),
+    initialValues: customerInitialValues,
+    validate: yupResolver(createUpdateCustomerValidation),
   });
 
   useEffect(() => {
     if (data?.data && !isLoading && !isCreateModal) {
-      data.data.openTime = convertTo24HourFormat(data.data.openTime);
-      data.data.closeTime = convertTo24HourFormat(data.data.closeTime);
-      form.setValues(data.data);
+      const customer = data.data.customer;
+      form.setValues(customer);
     }
   }, [data, isLoading]);
 
-  const handleCreateFormSubmit = async (data: ICourtForm) => {
-    const courtData = {
-      courtId: courtId ?? "",
-      courtData: { ...data, centre: centreId },
-    };
-    const response = await mutateAsync(courtData);
+  const handleCreateFormSubmit = async (
+    data: Pick<ICustomerData, "name" | "phone">
+  ) => {
+    const response = await mutateAsync(data);
 
     if (response.status === "error") {
       return notifications.show({
@@ -76,10 +67,16 @@ const CourtModal: React.FC<ICreateCentreProps> = ({
   return (
     <form onSubmit={form.onSubmit((e) => handleCreateFormSubmit(e))}>
       <FInput
-        label="Court Name"
-        placeholder="Court Name"
+        label="Customer Name"
+        placeholder="e.g. Sachin sixer"
         variant="text"
         formHandler={form.getInputProps("name")}
+      />
+      <FInput
+        label="Customer Phone"
+        placeholder="e.g. 6232065307"
+        variant="text"
+        formHandler={form.getInputProps("phone")}
       />
       <Flex direction={"column"}>
         <Flex justify="flex-end">
@@ -105,4 +102,4 @@ const CourtModal: React.FC<ICreateCentreProps> = ({
   );
 };
 
-export default CourtModal;
+export default CustomerModal;

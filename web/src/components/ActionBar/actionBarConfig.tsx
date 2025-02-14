@@ -1,7 +1,6 @@
-import AdminModal from "../../container/modal/AdminModal/UploadLogsModel";
 import CreateCentreModal from "../../container/modal/CentreModal/CreateCentreModal";
 import { useDeleteAdmin } from "../../hooks/admin/useDeleteAdmin";
-import { useGetAllAdmin } from "../../hooks/admin/useGetAllAdmin";
+import { useGetAllUploadLogs } from "../../hooks/admin/useGetAllUploadLogs";
 import { useUpdateAdminStatus } from "../../hooks/admin/useUpdateAdminStatus";
 import useDeleteCentre from "../../hooks/centre/useDeleteCentre";
 import useGetCentres from "../../hooks/centre/useGetCentres";
@@ -20,10 +19,10 @@ export const actionBarEntities = {
   },
   admin: {
     changeStatusMutation: useUpdateAdminStatus,
-    editModal: (adminId: string) => (
-      <AdminModal isNewAdmin={false} AdminId={adminId} />
-    ),
-    refetch: useGetAllAdmin,
+    // editModal: (adminId: string) => (
+    //   <AdminModal  />
+    // ),
+    refetch: useGetAllUploadLogs,
     deleteMutation: useDeleteAdmin,
   },
   user: {

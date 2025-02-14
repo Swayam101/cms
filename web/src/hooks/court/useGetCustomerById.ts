@@ -2,20 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../../services/axios.service";
 import { API_URLS } from "../api-url/apiUrls";
 
-const getAllCourts = async ({ centreId }: { centreId: string }) => {
+const getCustomerById = async (id: string) => {
   const response = await request({
-    url: API_URLS.ADMIN_COURT.GET_ALL_COURTS,
+    url: API_URLS.ADMIN_COURT.GET_CUSTOMER,
     method: "GET",
     params: {
-      centreId,
+      id,
     },
   });
   return response;
 };
 
-export default (centreId: string) => {
+export default (id: string) => {
   return useQuery({
-    queryKey: ["court", "court_fetch", centreId],
-    queryFn: () => getAllCourts({ centreId }),
+    queryKey: ["get customer", id],
+    queryFn: () => getCustomerById(id),
   });
 };

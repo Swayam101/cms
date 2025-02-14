@@ -11,9 +11,6 @@ import { INITIAL_VALUES } from "../../initial-values";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../enum/routes.enum";
 import { notifications } from "@mantine/notifications";
-import { useAppDispatch } from "../../app/hooks";
-import { setAdminData } from "../../app/reducers/user-data/adminData-reducer";
-import { IAdminData } from "../../types";
 interface IForm {
   email: string;
   password: string;
@@ -25,7 +22,6 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { mutateAsync, isPending } = useLoginMutation();
 
   const handleLogin = async (e: IForm) => {
@@ -34,7 +30,8 @@ const Login = () => {
       password: e.password,
     });
     if (res.status === "success") {
-      dispatch(setAdminData(res.data as IAdminData));
+      const token = res.data.token;
+      localStorage.setItem("token", token);
       return navigate(ROUTES.DASHBOARD);
     } else {
       return notifications.show({

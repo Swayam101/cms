@@ -1,7 +1,7 @@
 import moment from "moment";
-import { AdminTableData } from "../types";
+import { UploadLogTableData } from "../types";
 
-export const UploadLogTable: TTableColumns<AdminTableData>[] = [
+export const UploadLogTable: TTableColumns<UploadLogTableData>[] = [
   {
     key: "role",
     label: "Total Uploads",
@@ -13,6 +13,6 @@ export const UploadLogTable: TTableColumns<AdminTableData>[] = [
     label: "Upload Date",
     minWidth: "10%",
     renderCell: (value) =>
-      moment(new Date(value.totalUploads)).format("dd-mm-yy"),
+      moment(new Date(value.createdAt)).format("DD-MM-YYYY"),
   },
 ];

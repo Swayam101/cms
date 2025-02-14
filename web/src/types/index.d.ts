@@ -1,28 +1,31 @@
 import { Slot } from "../utils/slotSelectionLogic";
 
-export interface CourtTableData {
-  name: string;
-  address: string;
-  openTime: string;
-  closeTime: string;
-  active: boolean;
-  centre: string;
-  _id?: string;
+export interface IUploadErrorsTableData {
+  row: number;
+  errors: string;
+  mobile: string;
 }
-export interface AdminTableData {
+
+export interface ICustomerData {
+  _id: string;
+  name: string;
+  phone: string;
+  status: string;
+  createdAt: string;
+  assignedTo?: string;
+  checked: boolean;
+}
+export interface UploadLogTableData {
   totalUploads: number;
   createdAt: string;
 }
 export interface UserTableData {
+  status: boolean;
   _id: string;
-  profileImg?: string;
-  name: string;
-  mobile: string;
-  age: string;
-  gender: string;
-  email: string;
-  active: boolean;
-  dob: string;
+  username: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface CenterTableData {
   img: FileList | null | string;
@@ -44,14 +47,7 @@ export interface IAdminData {
 }
 
 export interface IAdminForm {
-  name: string;
-  phone: string;
-  email: string;
-  password: string;
-  role: string;
-  image: [];
-  centre?: string;
-  updatePassword?: boolean;
+  file: undefined | File;
 }
 
 export interface IBookingForm {
@@ -99,7 +95,7 @@ export interface ICentreForm {
   slots: string[];
 }
 
-export interface ICourtForm {
+export interface ICustomerForm {
   name: string;
 }
 

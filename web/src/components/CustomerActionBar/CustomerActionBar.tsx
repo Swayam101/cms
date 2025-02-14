@@ -8,17 +8,16 @@ import useChangeCourtStatus from "../../hooks/court/useChangeCourtStatus";
 import { confirmationAlert, Modals } from "../../container/modal/Fmodals";
 import { notifications } from "@mantine/notifications";
 import { queryClient } from "../../client/queryClient";
-import CourtModal from "../../container/modal/CourtModal/CourtModal";
+import CourtModal from "../../container/modal/CustomerModal/CustomerModal";
 import useDeleteCourt from "../../hooks/court/useDeleteCourt";
 import Edit from "../../assets/icons/edit";
 
 interface IProps {
   status: boolean;
-  courtId: string;
-  centreId?: string;
+  id: string;
 }
 
-const CourtActionBar: React.FC<IProps> = ({ status, courtId, centreId }) => {
+const CustomerActionBar: React.FC<IProps> = ({ status, id }) => {
   const { mutateAsync: changeStatusMutate, isPending: isStatusPending } =
     useChangeCourtStatus();
   const { mutateAsync: deleteCourtMutate, isPending: isDeletePending } =
@@ -31,7 +30,7 @@ const CourtActionBar: React.FC<IProps> = ({ status, courtId, centreId }) => {
     });
 
     if (isConfirm) {
-      const response = await deleteCourtMutate({ id: courtId });
+      const response = await deleteCourtMutate({ id });
       notifications.show({
         message: response.message,
         title: response.title,
@@ -43,13 +42,7 @@ const CourtActionBar: React.FC<IProps> = ({ status, courtId, centreId }) => {
 
   const handleOpenEditModal = () => {
     Modals({
-      children: (
-        <CourtModal
-          isCreateModal={false}
-          centreId={centreId}
-          courtId={courtId}
-        />
-      ),
+      children: <CourtModal isCreateModal={false} id={id} />,
       title: `Edit Court`,
       size: "sm",
     });
@@ -64,7 +57,7 @@ const CourtActionBar: React.FC<IProps> = ({ status, courtId, centreId }) => {
 
     if (isConfirm) {
       const response = await changeStatusMutate({
-        id: courtId,
+        id,
         status: !status,
       });
       notifications.show({
@@ -116,4 +109,4 @@ const CourtActionBar: React.FC<IProps> = ({ status, courtId, centreId }) => {
   );
 };
 
-export default CourtActionBar;
+export default CustomerActionBar;

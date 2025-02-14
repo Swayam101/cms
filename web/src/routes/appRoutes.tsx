@@ -6,7 +6,7 @@ import Dashboard from "../screens/dashboard-screen/Dashboard";
 import Admin from "../screens/admin/Admin";
 import User from "../screens/user/User";
 import Center from "../screens/center/Center";
-import Court from "../screens/court/Court";
+import Customers from "../screens/customer/Customer";
 import BookingCalender from "../screens/booking/BookingCalender";
 import ListBookingPage from "../screens/list-booking/ListBooking";
 import CentrePricingUpdate from "../screens/centre-pricing-update/CentrePricingUpdate";
@@ -49,8 +49,8 @@ export const appRouter = createBrowserRouter([
         element: <Report />,
       },
       {
-        path: ROUTES.COURT_TABLE_PAGE,
-        element: <Court />,
+        path: ROUTES.CUSTOMER_TABLE_PAGE,
+        element: <Customers />,
       },
       {
         path: ROUTES.CALENDER,

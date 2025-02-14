@@ -3,29 +3,30 @@ import { Request, Response } from "express";
 import csv from "csv-parser";
 import { JsonResponse } from "../../../utils/jsonResponse.utils";
 import customerValidators from "../validators/customer.validators";
-import customerDaos from "../dao/customer.daos";
 import CustomerModel from "../models/customer.model";
+import { ICustomer } from "../interfaces/customer.interface";
+import { ValidationError } from "yup";
 
 export default async (req: Request, res: Response) => {
   try {
-    console.log((req as any).files);
-
     if (!(req as any).file) {
       return JsonResponse(res, {
         status: "error",
         statusCode: 400,
-        message: "Please try again later",
+        message: "File is required",
         title: "Unable to upload file",
       });
     }
 
     const { path: filePath } = (req as any).file;
-    const records: any[] = [];
-    const errorRows: { row: number; errors: string }[] = [];
+    const records: ICustomer[] = [];
+    const errorRows: { row: number; errors: string; mobile: string }[] = [];
 
     fs.createReadStream(filePath)
       .pipe(csv())
-      .on("data", (row) => records.push(row))
+      .on("data", (row) => {
+        records.push(row);
+      })
       .on("end", async () => {
         fs.unlink(filePath, () => {});
 
@@ -33,12 +34,19 @@ export default async (req: Request, res: Response) => {
 
         await Promise.all(
           records.map(async (row, index) => {
-            const validation = customerValidators.addCustomer.validateSync(row);
+            const validation = customerValidators.addCustomer.isValidSync(row);
+            let val: any;
+            try {
+              val = customerValidators.addCustomer.validateSync(row);
+            } catch (error) {
+              val = (error as ValidationError).errors[0];
+            }
 
-            if (validation) {
+            if (!validation) {
               errorRows.push({
                 row: index + 1,
-                errors: "validation.error.details.map((err) => err.message)",
+                errors: val,
+                mobile: (row as any).phone,
               });
               return;
             }
@@ -51,11 +59,10 @@ export default async (req: Request, res: Response) => {
               errorRows.push({
                 row: index + 1,
                 errors: "Phone number already exists in the database",
+                mobile: (row as any).phone,
               });
               return;
             }
-
-            await customerDaos.customer.addCustomer(row);
             totalUploads++;
           })
         );
@@ -70,12 +77,10 @@ export default async (req: Request, res: Response) => {
           });
         }
 
-        await customerDaos.customerUpload.createLog({ totalUploads });
-
         return JsonResponse(res, {
           status: "success",
           statusCode: 200,
-          message: `${totalUploads} customers added successfully`,
+          message: `${totalUploads} customers verified successfully`,
           title: "Data Inserted Successfully",
         });
       })

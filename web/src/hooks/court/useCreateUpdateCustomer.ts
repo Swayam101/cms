@@ -1,16 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { request } from "../../services/axios.service";
-import { ICourtForm } from "../../types";
+import { ICustomerData } from "../../types";
 import { API_URLS } from "../api-url/apiUrls";
 
-const createCourt = async (formData: {
-  courtData: ICourtForm;
-  courtId: string;
-}) => {
+const createCourt = async (data: Pick<ICustomerData, "name" | "phone">) => {
   const response = await request({
-    url: API_URLS.ADMIN_COURT.GET_COURT,
+    url: API_URLS.ADMIN_COURT.CREATE_CUSTOMER,
     method: "POST",
-    data: formData,
+    data: data,
   });
   return response;
 };

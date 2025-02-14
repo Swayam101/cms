@@ -5,6 +5,11 @@ const createLog = (log: ICustomerUploadLog) => {
   return customerModels.CustomerUploadLogs.create(log);
 };
 
+const getAllLogs = () => {
+  return customerModels.CustomerUploadLogs.find({});
+};
+
 export default {
   createLog,
+  getAllLogs,
 };

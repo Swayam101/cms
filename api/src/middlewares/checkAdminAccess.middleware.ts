@@ -10,9 +10,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     if (!userToken) throw new Error("unauthorized access");
 
     const token = await authDao.token.getToken(userToken);
+
     if (!token) throw new Error("unauthorized access");
 
-    const { id } = authLib.jwtLib.verifyJWT(token.token);
+    const { id, ...other } = authLib.jwtLib.verifyJWT(token.token);
 
     const admin = await dao.admin.getAdminById(id);
 

@@ -1,8 +1,8 @@
 import React from "react";
-import UploadLogsPage from "../../components/admin/UploadLogsPage";
+import UploadLogsPage from "../../components/uploads/UploadLogsPage";
 
-const Admin: React.FC = () => {
+const UploadLogs: React.FC = () => {
   return <UploadLogsPage />;
 };
 
-export default Admin;
+export default UploadLogs;

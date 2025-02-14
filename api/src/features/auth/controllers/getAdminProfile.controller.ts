@@ -14,13 +14,15 @@ export default async (req: Request, res: Response) => {
       title: "ADMIN PROFILE",
     });
 
+  const { password, ...adminData } = admin.toObject();
+
   return JsonResponse(res, {
     status: "success",
     statusCode: 200,
     title: "ADMIN PROFILE",
     message: "admin profile fetched successfully",
     data: {
-      admin,
+      admin: adminData,
     },
   });
 };
