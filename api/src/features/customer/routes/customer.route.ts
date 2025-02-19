@@ -52,6 +52,12 @@ customerRoute.post(
   customerControllers.addCustomer
 );
 
-customerRoute.post("/status");
+customerRoute.post(
+  "/edit",
+  middlewares.checkAdminAccess,
+  customerControllers.editCustomerDetails
+);
+
+// customerRoute.post("/status");
 
 export default customerRoute;

@@ -12,8 +12,8 @@ export default async (req: Request, res: Response) => {
     {
       assignedTo: currentUserId ?? userId,
       $or: [
-        { name: { $regex: search, $options: "i" } },
-        { phone: { $regex: search, $options: "i" } },
+        { name: { $regex: search ?? "", $options: "i" } },
+        { phone: { $regex: search ?? "", $options: "i" } },
       ],
     },
     { page: 1, limit: 25 }

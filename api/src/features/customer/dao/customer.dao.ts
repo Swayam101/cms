@@ -44,9 +44,15 @@ const getCustomerById = (id: string) => {
   return customerModels.Customer.findById(id).populate("assignedTo");
 };
 
+const updateCustomer = (data: Partial<ICustomer>) => {
+  const { _id, ...update } = data;
+  return customerModels.Customer.findByIdAndUpdate(_id, { ...update });
+};
+
 export default {
   addCustomer,
   changeCustomerStatus,
   getAllCustomers,
   getCustomerById,
+  updateCustomer,
 };

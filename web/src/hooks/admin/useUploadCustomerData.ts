@@ -13,7 +13,7 @@ const uploadCustomerData = async (data: IAdminForm) => {
   return res;
 };
 
-export const useuploadCustomerData = () => {
+export const useUploadCustomerData = () => {
   return useMutation({
     mutationKey: ["admin", "createOrUpdate"],
     mutationFn: uploadCustomerData,

@@ -35,7 +35,7 @@ const UserPage: React.FC = () => {
   const allUser = useMemo(() => {
     if (data?.data && !isLoading) return data?.data?.users as [];
     return [];
-  }, [data, isLoading, activePage]);
+  }, [data, isLoading]);
 
   return (
     <Box className={classes.root}>

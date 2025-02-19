@@ -7,8 +7,8 @@ export default async (req: Request, res: Response) => {
   const customers = await customerDaos.customer.getAllCustomers(
     {
       $or: [
-        { name: { $regex: search, $options: "i" } },
-        { phone: { $regex: search, $options: "i" } },
+        { name: { $regex: search ?? "", $options: "i" } },
+        { phone: { $regex: search ?? "", $options: "i" } },
       ],
     },
     {

@@ -8,11 +8,13 @@ import FInput from "../../../ui/input/finput/FInput";
 import FButton from "../../../ui/button/FButton";
 
 import { ICustomerData } from "../../../types";
-import useCreateUpdateCourt from "../../../hooks/court/useCreateUpdateCustomer";
+import useCreateCustomer from "../../../hooks/customer/useCreateCustomer";
 import customerInitialValues from "../../../initial-values/customer.initialValues";
 import { createUpdateCustomerValidation } from "../../../validations/customer.validation";
-import useGetCustomerById from "../../../hooks/court/useGetCustomerById";
+import useGetCustomerById from "../../../hooks/customer/useGetCustomerById";
 import { queryClient } from "../../../client/queryClient";
+import useEditCustomer from "../../../hooks/customer/useEditCustomer";
+import { IServerResponse } from "../../../interfaces/serverResponse.interface";
 
 interface ICreateCentreProps {
   isCreateModal: boolean;
@@ -21,7 +23,9 @@ interface ICreateCentreProps {
 
 const CustomerModal: React.FC<ICreateCentreProps> = ({ isCreateModal, id }) => {
   const { data, isLoading } = useGetCustomerById(id ?? "");
-  const { mutateAsync, isPending } = useCreateUpdateCourt();
+  const { mutateAsync, isPending } = useCreateCustomer();
+  const { mutateAsync: mutateEdit, isPending: editIsPending } =
+    useEditCustomer();
 
   const form = useForm({
     initialValues: customerInitialValues,
@@ -33,12 +37,15 @@ const CustomerModal: React.FC<ICreateCentreProps> = ({ isCreateModal, id }) => {
       const customer = data.data.customer;
       form.setValues(customer);
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, isCreateModal]);
 
   const handleCreateFormSubmit = async (
     data: Pick<ICustomerData, "name" | "phone">
   ) => {
-    const response = await mutateAsync(data);
+    let response: IServerResponse;
+
+    if (isCreateModal) response = await mutateAsync({ ...data });
+    else response = await mutateEdit({ ...data });
 
     if (response.status === "error") {
       return notifications.show({
@@ -92,7 +99,7 @@ const CustomerModal: React.FC<ICreateCentreProps> = ({ isCreateModal, id }) => {
             <FButton
               variant="filled"
               type="submit"
-              loading={isPending}
+              loading={isPending || editIsPending}
               label={isCreateModal ? "Create" : "Update"}
             />
           </Flex>

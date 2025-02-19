@@ -3,7 +3,7 @@ import FTypography from "../../ui/typography/FTypography";
 import { ReactNode } from "react";
 import { MantineSize } from "@mantine/core";
 
-export type Props = {
+type IProps = {
   title?: string;
   msg?: string;
   labels?: { confirm: string; cancel: string };
@@ -13,7 +13,7 @@ export const confirmationAlert = ({
   labels = { cancel: "Cancel", confirm: "Confirm" },
   title = "Are you sure you want to continue?",
   ...data
-}: Props): Promise<boolean> => {
+}: IProps): Promise<boolean> => {
   return new Promise((resolve) => {
     modals.openConfirmModal({
       title: title,

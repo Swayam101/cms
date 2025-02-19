@@ -23,7 +23,7 @@ const AssignCustomersModal: React.FC<IProps> = ({ id }) => {
 
   const { mutateAsync, isPending } = useAssignUserCustomers();
 
-  const handleFormSubmit = async (e: any) => {
+  const handleFormSubmit = async (e: { customers: number }) => {
     const response = await mutateAsync({ id, customerCount: e.customers });
 
     if (response.status === "error")

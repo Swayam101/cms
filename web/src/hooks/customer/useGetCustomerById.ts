@@ -2,12 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../../services/axios.service";
 import { API_URLS } from "../api-url/apiUrls";
 
-const getUserById = async (id: string) => {
-  console.log("logging id : ", id);
-
-  if (!id) return;
+const getCustomerById = async (id: string) => {
   const response = await request({
-    url: `${API_URLS.USERS.GET_USER_BY_ID}`,
+    url: API_URLS.ADMIN.GET_CUSTOMER,
     method: "GET",
     params: {
       id,
@@ -18,7 +15,7 @@ const getUserById = async (id: string) => {
 
 export default (id: string) => {
   return useQuery({
-    queryKey: ["create user", id],
-    queryFn: () => getUserById(id),
+    queryKey: ["get customer", id],
+    queryFn: () => getCustomerById(id),
   });
 };

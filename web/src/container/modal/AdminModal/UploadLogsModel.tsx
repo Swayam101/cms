@@ -5,22 +5,22 @@ import FButton from "../../../ui/button/FButton";
 import { getAdminInitialValues } from "../../../initial-values/admin.initialValues";
 import { IAdminForm } from "../../../types";
 import { modals } from "@mantine/modals";
-import { useuploadCustomerData } from "../../../hooks/admin/useUploadCustomerData";
+import { useUploadCustomerData } from "../../../hooks/admin/useUploadCustomerData";
 import { notifications } from "@mantine/notifications";
 import { IconUpload, IconX, IconFileText } from "@tabler/icons-react";
 import { Dropzone } from "@mantine/dropzone";
 import { Modals } from "../Fmodals";
 import UploadErrorsModal from "../../../components/uploads/UploadErrorsModal";
-import { useverifyCustomerData } from "../../../hooks/admin/useVerifyCustomerData";
+import { useVerifyCustomerData } from "../../../hooks/admin/useVerifyCustomerData";
 
 interface IProps {
   isUpload: boolean;
 }
 
 const UploadLogsModel: React.FC<IProps> = ({ isUpload }) => {
-  const { mutateAsync, isPending } = useuploadCustomerData();
+  const { mutateAsync, isPending } = useUploadCustomerData();
   const { mutateAsync: mutateVerify, isPending: mutatePending } =
-    useverifyCustomerData();
+    useVerifyCustomerData();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const form = useForm<IAdminForm>({
@@ -38,7 +38,7 @@ const UploadLogsModel: React.FC<IProps> = ({ isUpload }) => {
     const formData = new FormData();
     formData.append("file", values.file);
 
-    let res = isUpload
+    const res = isUpload
       ? await mutateAsync(formData as unknown as IAdminForm)
       : await mutateVerify(formData as unknown as IAdminForm);
     if (res.status === "error") {

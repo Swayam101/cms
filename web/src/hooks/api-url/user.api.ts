@@ -7,4 +7,6 @@ export const usersApis = {
   getUserCustomers: prefix + "/customers/user",
   getMyCustomers: prefix + "/my/customers",
   updateCustomerStatus: "/user" + "/my/customer/status",
+  GET_USER_BY_ID: prefix,
+  UPDATE_USER: prefix + "/edit",
 };

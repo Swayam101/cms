@@ -1,16 +1,14 @@
 import { Box, Center, Flex, Loader } from "@mantine/core";
 import React, { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import useGetCustomerById from "../../hooks/court/useGetCustomerById";
+import useGetCustomerById from "../../hooks/customer/useGetCustomerById";
 import { ICustomerData } from "../../types";
 import DefaultTable from "../../components/Dynamic-Table/table/DefaultTable";
 import CustomerStatusTable from "../../constants/CustomerStatusTable";
 import UserDetailsCard from "../../components/user/UserDetailCard/UserDetailCard";
 import FTypography from "../../ui/typography/FTypography";
 
-interface IProps {}
-
-const CustomerDetails: React.FC<IProps> = () => {
+const CustomerDetails: React.FC = () => {
   const [searchParams] = useSearchParams();
   const userId = `${searchParams.get("id")}`;
   const { data, isLoading } = useGetCustomerById(userId);
@@ -47,9 +45,9 @@ const CustomerDetails: React.FC<IProps> = () => {
       <FTypography
         fontSize={24}
         text={`Current Handler : ${
-          typeof customer.assignedTo === "string"
+          (typeof customer.assignedTo === "string"
             ? customer.assignedTo
-            : customer.assignedTo?.username
+            : customer.assignedTo?.username) ?? "N/A"
         }`}
         variant={"nunito700"}
       />

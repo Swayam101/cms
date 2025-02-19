@@ -13,7 +13,7 @@ const verifyCustomerData = async (data: IAdminForm) => {
   return res;
 };
 
-export const useverifyCustomerData = () => {
+export const useVerifyCustomerData = () => {
   return useMutation({
     mutationKey: ["admin", "verify"],
     mutationFn: verifyCustomerData,

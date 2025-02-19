@@ -124,9 +124,9 @@ const Layout = ({ loading }: { loading: boolean }) => {
             {!isUser && (
               <SideBarButton
                 label="Upload"
-                link={ROUTES.ADMIN_TABLE_PAGE}
+                link={ROUTES.UPLOAD_LOGS_PAGE}
                 Icon={Assets.Icons.admin}
-                active={router.pathname === ROUTES.ADMIN_TABLE_PAGE}
+                active={router.pathname === ROUTES.UPLOAD_LOGS_PAGE}
               />
             )}
 
@@ -139,46 +139,6 @@ const Layout = ({ loading }: { loading: boolean }) => {
               />
             )}
           </>
-
-          {/* <NavLink
-            label="Booking"
-            px="xl"
-            leftSection={<Assets.Icons.Booking />}
-            styles={{
-              collapse: {
-                width: "100%",
-              },
-            }}
-          >
-            <SideBarButton
-              label="Users"
-              link={ROUTES.CENTER_TABLE_PAGE}
-              Icon={Assets.Icons.manageCenter}
-              active={router.pathname === ROUTES.CENTER_TABLE_PAGE}
-              showSideBar={false}
-            />
-            <SideBarButton
-              label="List"
-              link={ROUTES.LIST_BOOKING}
-              Icon={Assets.Icons.Booking}
-              showSideBar={false}
-              active={router.pathname === ROUTES.LIST_BOOKING}
-            />
-            <SideBarButton
-              label="Calender"
-              link={ROUTES.CALENDER}
-              Icon={Assets.Icons.Booking}
-              showSideBar={false}
-              active={router.pathname === ROUTES.CALENDER}
-            />
-          </NavLink>
-
-          <SideBarButton
-            label="Report"
-            link={ROUTES.REPORT_PAGE}
-            Icon={Assets.Icons.Report}
-            active={router.pathname === ROUTES.REPORT_PAGE}
-          /> */}
 
           <Divider my="sm" w="100%" />
           <Button

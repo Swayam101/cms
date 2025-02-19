@@ -5,7 +5,6 @@ import { request } from "../../services/axios.service";
 type TProps = {
   page: number;
   limit: number;
-  // sort?: object;
   search?: string;
 };
 const getAllUploadLogs = async ({ page, search, limit }: TProps) => {

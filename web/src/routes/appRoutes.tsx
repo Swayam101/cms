@@ -3,16 +3,9 @@ import ROUTES from "../enum/routes.enum";
 import ProtectedRoute from "../router/Protected.route";
 import Login from "../screens/auth/Login";
 import Dashboard from "../screens/dashboard-screen/Dashboard";
-import Admin from "../screens/admin/Admin";
+import UploadLogs from "../screens/upload-logs/UploadLogs";
 import User from "../screens/user/User";
-import Center from "../screens/center/Center";
 import Customers from "../screens/customer/Customer";
-import BookingCalender from "../screens/booking/BookingCalender";
-import ListBookingPage from "../screens/list-booking/ListBooking";
-import CentrePricingUpdate from "../screens/centre-pricing-update/CentrePricingUpdate";
-import EditBlockedSlots from "../screens/edit-blocked/EditBlockedSlots";
-import Report from "../screens/report/Report";
-import BulkBookingPage from "../screens/bulk-booking/BulkBookingPage";
 import UserDetails from "../screens/user/UserDetails";
 import CustomerDetails from "../screens/customer/CustomerDetails";
 
@@ -39,24 +32,12 @@ export const appRouter = createBrowserRouter([
         element: <UserDetails />,
       },
       {
-        path: ROUTES.ADMIN_TABLE_PAGE,
-        element: <Admin />,
+        path: ROUTES.UPLOAD_LOGS_PAGE,
+        element: <UploadLogs />,
       },
       {
         path: ROUTES.USER_TABLE_PAGE,
         element: <User />,
-      },
-      {
-        path: ROUTES.BULK_BOOKING,
-        element: <BulkBookingPage />,
-      },
-      {
-        path: ROUTES.CENTER_TABLE_PAGE,
-        element: <Center />,
-      },
-      {
-        path: ROUTES.REPORT_PAGE,
-        element: <Report />,
       },
       {
         path: ROUTES.USER_DETAILS,
@@ -65,22 +46,6 @@ export const appRouter = createBrowserRouter([
       {
         path: ROUTES.CUSTOMER_TABLE_PAGE,
         element: <Customers />,
-      },
-      {
-        path: ROUTES.CALENDER,
-        element: <BookingCalender />,
-      },
-      {
-        path: ROUTES.LIST_BOOKING,
-        element: <ListBookingPage />,
-      },
-      {
-        path: ROUTES.UPDATE_CENTER_PRICING,
-        element: <CentrePricingUpdate />,
-      },
-      {
-        path: ROUTES.EDIT_BLOCKED,
-        element: <EditBlockedSlots />,
       },
     ],
   },

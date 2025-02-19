@@ -5,7 +5,7 @@ import FButton from "../../ui/button/FButton";
 import DefaultTable from "../Dynamic-Table/table/DefaultTable";
 import Pencil from "../../assets/icons/pencil";
 import { courtTable } from "../../constants/CustomerTable";
-import useGetAllCustomers from "../../hooks/court/useGetAllCustomers";
+import useGetAllCustomers from "../../hooks/customer/useGetAllCustomers";
 import { useForm } from "@mantine/form";
 import { Modals } from "../../container/modal/Fmodals";
 import CourtModal from "../../container/modal/CustomerModal/CustomerModal";

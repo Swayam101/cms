@@ -1,7 +1,10 @@
-const prefix = "/admin";
+const prefix = "/customer";
 export const adminApis = {
-  GET_ALL_LOGS: "/customer" + "/logs",
-  VERIFY_CUSTOMER: "/customer" + "/verify",
-  UPLOAD_CUSTOMER: "/customer" + "/upload",
-  getAdminById: (id: string) => prefix + `/admin/getById?id=${id}`,
+  CREATE_CUSTOMER: prefix,
+  EDIT_CUSTOMER: prefix + "/edit",
+  GET_ALL_LOGS: prefix + "/logs",
+  VERIFY_CUSTOMER: prefix + "/verify",
+  UPLOAD_CUSTOMER: prefix + "/upload",
+  GET_ALL_CUSTOMERS: prefix,
+  GET_CUSTOMER: prefix + "/one",
 };

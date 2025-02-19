@@ -15,7 +15,7 @@ const ThemePagination: React.FC<TPaging> = (props) => {
 
   useEffect(() => {
     setPage(debounce);
-  }, [debounce]);
+  }, [debounce, setPage]);
 
   if (
     (totalDocuments && totalDocuments <= CONSTANTS.PAGE_LIMIT) ||

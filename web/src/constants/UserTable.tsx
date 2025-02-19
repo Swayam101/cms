@@ -1,4 +1,3 @@
-import moment from "moment";
 import ActionBar from "../components/ActionBar/ActionBar";
 import { UserTableData } from "../types";
 import { capitalizeWords } from "../utils/capitalize";
