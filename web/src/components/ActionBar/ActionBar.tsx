@@ -12,8 +12,9 @@ import { actionBarEntities } from "./actionBarConfig";
 import { queryClient } from "../../client/queryClient";
 import { useAppSelector } from "../../app/hooks";
 import Rupee from "../../assets/icons/rupee";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../enum/routes.enum";
+import { IconListDetails } from "@tabler/icons-react";
 
 interface IProps {
   status: boolean;
@@ -22,6 +23,7 @@ interface IProps {
   onlyEye?: boolean;
   noDelete?: boolean;
   pricing?: boolean;
+  detailsPage?: boolean;
 }
 
 const ActionBar: React.FC<IProps> = ({
@@ -31,6 +33,7 @@ const ActionBar: React.FC<IProps> = ({
   id,
   noDelete,
   pricing,
+  detailsPage,
 }) => {
   const { _id } = useAppSelector((state) => state.userData.userData);
 
@@ -38,6 +41,8 @@ const ActionBar: React.FC<IProps> = ({
     actionBarEntities[entity]?.changeStatusMutation?.();
 
   const deleteEntityMutate = actionBarEntities[entity]?.deleteMutation?.();
+
+  const navigate = useNavigate();
 
   const { refetch } = actionBarEntities[entity].refetch({
     page: 1,
@@ -120,6 +125,20 @@ const ActionBar: React.FC<IProps> = ({
               <Edit />
             </Button>
           </Tooltip>
+          {!detailsPage && (
+            <Tooltip label="Show Details">
+              <Button
+                variant="default"
+                size="compact-md"
+                loading={false}
+                onClick={() => {
+                  navigate(`/user/details?id=${id}`);
+                }}
+              >
+                <IconListDetails />
+              </Button>
+            </Tooltip>
+          )}
           {!noDelete && (
             <Tooltip label="Delete">
               <Button

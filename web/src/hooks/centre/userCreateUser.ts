@@ -1,23 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import { request } from "../../services/axios.service";
-import { ICentreForm } from "../../types";
+import { IUserForm } from "../../types";
 import { API_URLS } from "../api-url/apiUrls";
 
-const updateCentre = async (data: ICentreForm) => {
+const createCenter = async (data: IUserForm) => {
   const response = await request({
-    url: API_URLS.ADMIN_CENTRE.UPDATE_CENTRE,
+    url: API_URLS.USERS.createUser,
     method: "POST",
     data,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
   });
   return response;
 };
 
 export default () => {
   return useMutation({
-    mutationKey: ["update-centre"],
-    mutationFn: updateCentre,
+    mutationKey: ["admin", "create-user"],
+    mutationFn: createCenter,
   });
 };

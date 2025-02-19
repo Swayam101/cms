@@ -1,5 +1,6 @@
 import {
   AppShell,
+  Box,
   Burger,
   Button,
   Center,
@@ -17,23 +18,23 @@ import SideBarButton from "./components/sideBarButton";
 import UserControl from "./components/userControl";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "../../enum/routes.enum";
-import { useLogoutMutation } from "../../hooks/auth/useAdminLogout";
+
 import classes from "./components/index.module.scss";
-import FTypography from "../../ui/typography/FTypography";
 const Layout = ({ loading }: { loading: boolean }) => {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const router = useLocation();
   const navigate = useNavigate();
-  const { mutateAsync } = useLogoutMutation();
+
   const handleLogout = async () => {
-    const fcmToken = localStorage.getItem("fcmToken");
-    const res = await mutateAsync(fcmToken);
-    if (res.statusCode === 200) {
-      localStorage.removeItem("fcmToken");
-      navigate(ROUTES.LOGIN);
-    }
+    const role = localStorage.getItem("role");
+    const isUser = role === "user";
+    localStorage.removeItem("token");
+    navigate(isUser ? ROUTES.USER_LOGIN : ROUTES.LOGIN);
   };
+  const role = localStorage.getItem("role");
+
+  const isUser = role === "user";
   return (
     <AppShell
       layout="alt"
@@ -79,7 +80,12 @@ const Layout = ({ loading }: { loading: boolean }) => {
           direction="column"
           gap="xs"
         >
-          <FTypography fontSize={"32px"} text="My CMS" variant="oswald500" />
+          <Box>
+            <img
+              style={{ height: "auto", width: "100%" }}
+              src={Assets.Icons.LOGO}
+            />
+          </Box>
           <Space h={"sm"} />
           <SideBarButton
             label="Dashboard"
@@ -87,58 +93,54 @@ const Layout = ({ loading }: { loading: boolean }) => {
             Icon={Assets.Icons.dashboard}
             active={router.pathname === ROUTES.DASHBOARD}
           />
-          <NavLink
-            leftSection={<Assets.Icons.Manage />}
-            px="xl"
-            label="Manage"
-            styles={{
-              collapse: {
-                width: "100%",
-              },
-            }}
-          >
-            <SideBarButton
-              label="User"
-              link={ROUTES.USER_TABLE_PAGE}
-              Icon={Assets.Icons.user}
-              active={router.pathname === ROUTES.USER_TABLE_PAGE}
-            />
+          {!isUser && (
+            <NavLink
+              leftSection={<Assets.Icons.Manage />}
+              px="xl"
+              label="Manage"
+              styles={{
+                collapse: {
+                  width: "100%",
+                },
+              }}
+            >
+              <SideBarButton
+                label="User"
+                link={ROUTES.USER_TABLE_PAGE}
+                Icon={Assets.Icons.user}
+                active={router.pathname === ROUTES.USER_TABLE_PAGE}
+              />
 
-            <SideBarButton
-              label="Customers"
-              link={ROUTES.CUSTOMER_TABLE_PAGE}
-              Icon={Assets.Icons.manageCourt}
-              showSideBar={false}
-              active={router.pathname === ROUTES.CUSTOMER_TABLE_PAGE}
-            />
-          </NavLink>
+              <SideBarButton
+                label="Customers"
+                link={ROUTES.CUSTOMER_TABLE_PAGE}
+                Icon={Assets.Icons.manageCourt}
+                showSideBar={false}
+                active={router.pathname === ROUTES.CUSTOMER_TABLE_PAGE}
+              />
+            </NavLink>
+          )}
           <>
-            <SideBarButton
-              label="Upload"
-              link={ROUTES.ADMIN_TABLE_PAGE}
-              Icon={Assets.Icons.admin}
-              active={router.pathname === ROUTES.ADMIN_TABLE_PAGE}
-            />
+            {!isUser && (
+              <SideBarButton
+                label="Upload"
+                link={ROUTES.ADMIN_TABLE_PAGE}
+                Icon={Assets.Icons.admin}
+                active={router.pathname === ROUTES.ADMIN_TABLE_PAGE}
+              />
+            )}
 
-            <SideBarButton
-              label="Bulk Booking"
-              link={ROUTES.BULK_BOOKING}
-              Icon={Assets.Icons.user}
-              active={router.pathname === ROUTES.BULK_BOOKING}
-            />
+            {isUser && (
+              <SideBarButton
+                label="Customers"
+                link={ROUTES.USER_CUSTOMER_PAGE}
+                Icon={Assets.Icons.user}
+                active={router.pathname === ROUTES.USER_CUSTOMER_PAGE}
+              />
+            )}
           </>
 
-          {/* {isCenterManager && (
-            <SideBarButton
-              label="Manage Courts"
-              link={ROUTES.COURT_TABLE_PAGE}
-              Icon={Assets.Icons.manageCourt}
-              showSideBar={false}
-              active={router.pathname === ROUTES.COURT_TABLE_PAGE}
-            />
-          )} */}
-
-          <NavLink
+          {/* <NavLink
             label="Booking"
             px="xl"
             leftSection={<Assets.Icons.Booking />}
@@ -176,7 +178,7 @@ const Layout = ({ loading }: { loading: boolean }) => {
             link={ROUTES.REPORT_PAGE}
             Icon={Assets.Icons.Report}
             active={router.pathname === ROUTES.REPORT_PAGE}
-          />
+          /> */}
 
           <Divider my="sm" w="100%" />
           <Button

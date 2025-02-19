@@ -7,12 +7,12 @@ import DefaultTable from "../Dynamic-Table/table/DefaultTable";
 import { centerTable } from "../../constants/CenterTable";
 import useGetCentres from "../../hooks/centre/useGetCentres";
 import { Modals } from "../../container/modal/Fmodals";
-import CreateCentreModal from "../../container/modal/CentreModal/CreateCentreModal";
+import UserModal from "../../container/modal/UserModal/UserModal";
 
 const CenterPage: React.FC = () => {
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, refetch } = useGetCentres({
+  const { data, isLoading } = useGetCentres({
     page,
     limit: 10,
     search: "",
@@ -25,7 +25,7 @@ const CenterPage: React.FC = () => {
 
   const handleCreateCentre = () => {
     Modals({
-      children: <CreateCentreModal refetch={refetch} isCreateModal={true} />,
+      children: <UserModal id="" isCreateModal={true} />,
       title: "Add New Centre",
     });
   };

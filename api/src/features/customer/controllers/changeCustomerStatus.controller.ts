@@ -5,7 +5,14 @@ import customerDaos from "../dao/customer.daos";
 export default async (req: Request, res: Response) => {
   const { id, status } = req.body;
 
-  await customerDaos.customer.changeCustomerStatus(id, status);
+  const role = res.locals.adminId ? "admin" : "user";
+
+  await customerDaos.customer.changeCustomerStatus(id, status, {
+    actionBy: role,
+    actionFor: "status",
+    date: new Date(),
+    action: status,
+  });
 
   return JsonResponse(res, {
     status: "success",

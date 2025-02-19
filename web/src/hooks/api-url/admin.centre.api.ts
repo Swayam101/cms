@@ -3,9 +3,9 @@ import { prefix } from "./admin.auth.api";
 export default {
   GET_CENTRES: prefix + "/centers",
   GET_ALL_CENTRES: prefix + "/centres/get",
-  GET_CENTRE_BY_ID: prefix + `/center`,
+  GET_USER_BY_ID: "/user",
   CREATE_CENTRE: prefix + "/center/create",
-  UPDATE_CENTRE: prefix + "/center/update",
+  UPDATE_USER: "/user" + "/edit",
   DELETE_CENTRE: prefix + "/center/delete",
   CHANGE_STATUS: prefix + "/center/update-status",
   CENTRE_SEARCH: prefix + "/center/search",

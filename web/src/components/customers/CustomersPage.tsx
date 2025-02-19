@@ -64,14 +64,7 @@ const CustomersPage: React.FC = () => {
             formHandler={form.getInputProps("search")}
           />
         </Box>
-        <Box>
-          <FInput
-            variant="select"
-            smallSelect
-            label="User Filter"
-            data={[{ label: "", value: "" }]}
-          />
-        </Box>
+
         <Box>
           <FButton
             onClick={handleOpenCourtModal}
@@ -83,7 +76,7 @@ const CustomersPage: React.FC = () => {
       </Flex>
 
       <DefaultTable
-        columns={courtTable as TTableColumns<unknown>[]}
+        columns={courtTable() as TTableColumns<unknown>[]}
         data={results}
         isLoading={isLoading}
         paginationProps={{

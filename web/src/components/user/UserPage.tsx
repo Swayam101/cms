@@ -10,6 +10,8 @@ import { useGetAllUser } from "../../hooks/users/useGetAllUsers";
 import { useDebouncedValue } from "@mantine/hooks";
 import { CONSTANTS } from "../Dynamic-Table/types/constants";
 import { IconEdit } from "@tabler/icons-react";
+import { Modals } from "../../container/modal/Fmodals";
+import UserModal from "../../container/modal/UserModal/UserModal";
 const UserPage: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [sorted, setSorted] = useState(false);
@@ -21,10 +23,20 @@ const UserPage: React.FC = () => {
     search: debouncedSearchQuery.trim(),
     limit: CONSTANTS.PAGE_LIMIT,
   });
+
+  const handleCreateNewUser = () => {
+    Modals({
+      title: "Add New User",
+      children: <UserModal isCreateModal id="" />,
+      size: "sm",
+    });
+  };
+
   const allUser = useMemo(() => {
     if (data?.data && !isLoading) return data?.data?.users as [];
     return [];
   }, [data, isLoading, activePage]);
+
   return (
     <Box className={classes.root}>
       <Flex align={"center"} gap={24}>
@@ -53,6 +65,7 @@ const UserPage: React.FC = () => {
           label="Create New User"
           variant={"smallBtn"}
           icon={<IconEdit />}
+          onClick={handleCreateNewUser}
         />
       </Flex>
       <DefaultTable

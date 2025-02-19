@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
     title: "ADMIN PROFILE",
     message: "admin profile fetched successfully",
     data: {
-      admin: adminData,
+      user: adminData,
     },
   });
 };

@@ -14,11 +14,22 @@ const schema = new Schema<ICustomer>(
     email: String,
     assignedTo: {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: "user",
     },
     status: {
       type: String,
       default: "new",
+    },
+    statusHistory: {
+      type: [
+        {
+          actionBy: String,
+          actionFor: String,
+          date: Date,
+          action: String,
+        },
+      ],
+      default: [],
     },
   },
   { timestamps: true }

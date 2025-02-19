@@ -15,8 +15,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     const { id } = authLib.jwtLib.verifyJWT(token.token);
 
     const user = await userDaos.user.getUserById(id);
-
     if (!user) throw new Error("unauthorised access");
+
+    if (!user.status) throw new Error("user banned by admin");
 
     res.locals.userId = user.id;
     res.locals.username = user.username;

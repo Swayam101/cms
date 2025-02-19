@@ -1,5 +1,6 @@
 import { asyncWrapper } from "../../../utils/asyncWrapper";
 import addCustomerController from "./addCustomer.controller";
+import assignCustomersController from "./assignCustomers.controller";
 import changeCustomerStatusController from "./changeCustomerStatus.controller";
 import getAllCustomersController from "./getAllCustomers.controller";
 import getCustomerByIdController from "./getCustomerById.controller";
@@ -15,4 +16,5 @@ export default {
   getAllCustomers: asyncWrapper(getAllCustomersController),
   getUploadLogs: asyncWrapper(getUploadLogsController),
   getCustomerById: asyncWrapper(getCustomerByIdController),
+  assignCustomers: asyncWrapper(assignCustomersController),
 };

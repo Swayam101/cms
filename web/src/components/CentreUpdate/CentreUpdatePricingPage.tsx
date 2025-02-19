@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from "react";
 
 import classes from "./index.module.scss";
-import useGetCentreById from "../../hooks/centre/useGetCentreById";
+import useGetCentreById from "../../hooks/centre/useGetUserById";
 import { useParams } from "react-router-dom";
 import { Box, Loader } from "@mantine/core";
 import FTypography from "../../ui/typography/FTypography";

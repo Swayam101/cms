@@ -11,17 +11,11 @@ export const userTable: TTableColumns<UserTableData>[] = [
     renderCell: (value) => capitalizeWords(value.username),
   },
   {
-    key: "current-customer-count",
-    label: "Current Customers",
-    minWidth: "5%",
-    renderCell: (value) => value._id,
-  },
-  {
     key: "action",
     label: "Action",
     minWidth: "20%",
     renderCell: (value: UserTableData) => (
-      <ActionBar entity="user" id={value._id} status={value.status} onlyEye />
+      <ActionBar noDelete entity="user" id={value._id} status={value.status} />
     ),
   },
 ];

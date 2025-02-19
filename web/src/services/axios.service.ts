@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ENV } from "../env/index.env";
-import { showNotification } from "@mantine/notifications";
 import ROUTES from "../enum/routes.enum";
 import { IServerResponse } from "../interfaces/serverResponse.interface";
 
@@ -17,14 +16,7 @@ export const request = async (options: AxiosRequestConfig<any>) => {
     } as IServerResponse);
 
   const onError = (error: any) => {
-    if (error.response.status >= 500) {
-      showNotification({
-        message:
-          error.response?.data?.message ??
-          "Something went wrong. Please try again.",
-        color: "red",
-      });
-    } else if (error.response.status === 401) {
+    if (error.response.status === 401) {
       if (window.location.pathname !== ROUTES.LOGIN) {
         window.location.replace(`${ROUTES.LOGIN}`);
       }

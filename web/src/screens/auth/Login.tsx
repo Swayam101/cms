@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { BackgroundImage, Box, Card, Center, Flex, Stack } from "@mantine/core";
+import { BackgroundImage, Box, Card, Flex, Stack } from "@mantine/core";
 import FTypography from "../../ui/typography/FTypography";
 import { Icons } from "../../assets/icons";
 import FInput from "../../ui/input/finput/FInput";
@@ -11,11 +11,20 @@ import { INITIAL_VALUES } from "../../initial-values";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../enum/routes.enum";
 import { notifications } from "@mantine/notifications";
+import { Assets } from "../../assets";
+import { useUserLogin } from "../../hooks/auth/useUserLogin";
+import { IServerResponse } from "../../interfaces/serverResponse.interface";
+
 interface IForm {
   email: string;
   password: string;
 }
-const Login = () => {
+
+interface IProps {
+  isUserForm?: boolean;
+}
+
+const Login: React.FC<IProps> = ({ isUserForm }) => {
   const form = useForm<IForm>({
     initialValues: INITIAL_VALUES.LOGIN,
     validate: yupResolver(loginValidation),
@@ -23,12 +32,25 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useLoginMutation();
+  const { mutateAsync: mutateUser, isPending: isPendingUser } = useUserLogin();
 
   const handleLogin = async (e: IForm) => {
-    const res = await mutateAsync({
-      email: e.email,
-      password: e.password,
-    });
+    let res: IServerResponse;
+    console.log("admin user  : ", isUserForm);
+
+    if (!isUserForm) {
+      res = await mutateAsync({
+        email: e.email,
+        password: e.password,
+      });
+      localStorage.setItem("role", "admin");
+    } else {
+      res = await mutateUser({
+        email: e.email,
+        password: e.password,
+      });
+      localStorage.setItem("role", "user");
+    }
     if (res.status === "success") {
       const token = res.data.token;
       localStorage.setItem("token", token);
@@ -46,13 +68,12 @@ const Login = () => {
       <BackgroundImage src={Icons.loginScreen} mih={"100vh"}>
         <Flex align={"center"} justify={"center"} mih={"100vh"} m={"auto"}>
           <Card maw={410} bg={"white"} radius={16} px={24} py={32}>
-            <Center>
-              <FTypography
-                fontSize={"48px"}
-                text="My CMS"
-                variant="oswald500"
+            <Box>
+              <img
+                style={{ height: "auto", width: "100%" }}
+                src={Assets.Icons.LOGO}
               />
-            </Center>
+            </Box>
             <Stack gap={"lg"} py={"md"} px={"xs"} ta={"center"}>
               <FTypography
                 variant="oswald500"
@@ -84,7 +105,7 @@ const Login = () => {
                 <Flex w={"80%"} m={"auto"}>
                   <FButton
                     type="submit"
-                    loading={isPending}
+                    loading={isPending || isPendingUser}
                     label="Sign In"
                     variant="filled"
                   />

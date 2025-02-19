@@ -13,12 +13,15 @@ import CentrePricingUpdate from "../screens/centre-pricing-update/CentrePricingU
 import EditBlockedSlots from "../screens/edit-blocked/EditBlockedSlots";
 import Report from "../screens/report/Report";
 import BulkBookingPage from "../screens/bulk-booking/BulkBookingPage";
+import UserDetails from "../screens/user/UserDetails";
+import CustomerDetails from "../screens/customer/CustomerDetails";
 
 export const appRouter = createBrowserRouter([
   {
     path: ROUTES.LOGIN,
     element: <Login />,
   },
+  { path: ROUTES.USER_LOGIN, element: <Login isUserForm /> },
   {
     path: ROUTES.DASHBOARD,
     element: <ProtectedRoute />,
@@ -27,7 +30,14 @@ export const appRouter = createBrowserRouter([
         path: ROUTES.DASHBOARD,
         element: <Dashboard />,
       },
-
+      {
+        path: ROUTES.CUSTOMER_DETAILS,
+        element: <CustomerDetails />,
+      },
+      {
+        path: ROUTES.USER_CUSTOMER_PAGE,
+        element: <UserDetails />,
+      },
       {
         path: ROUTES.ADMIN_TABLE_PAGE,
         element: <Admin />,
@@ -47,6 +57,10 @@ export const appRouter = createBrowserRouter([
       {
         path: ROUTES.REPORT_PAGE,
         element: <Report />,
+      },
+      {
+        path: ROUTES.USER_DETAILS,
+        element: <UserDetails />,
       },
       {
         path: ROUTES.CUSTOMER_TABLE_PAGE,

@@ -2,15 +2,15 @@ import { Button, Tooltip } from "@mantine/core";
 import React from "react";
 import Eye from "../../assets/icons/eye";
 import EyeDisable from "../../assets/icons/eyedisable";
-import Delete from "../../assets/icons/delete";
 import { modals } from "@mantine/modals";
 import useChangeCourtStatus from "../../hooks/court/useChangeCourtStatus";
 import { confirmationAlert, Modals } from "../../container/modal/Fmodals";
 import { notifications } from "@mantine/notifications";
 import { queryClient } from "../../client/queryClient";
 import CourtModal from "../../container/modal/CustomerModal/CustomerModal";
-import useDeleteCourt from "../../hooks/court/useDeleteCourt";
 import Edit from "../../assets/icons/edit";
+import { useNavigate } from "react-router-dom";
+import { IconBook } from "@tabler/icons-react";
 
 interface IProps {
   status: boolean;
@@ -20,25 +20,8 @@ interface IProps {
 const CustomerActionBar: React.FC<IProps> = ({ status, id }) => {
   const { mutateAsync: changeStatusMutate, isPending: isStatusPending } =
     useChangeCourtStatus();
-  const { mutateAsync: deleteCourtMutate, isPending: isDeletePending } =
-    useDeleteCourt();
 
-  const handleDelete = async () => {
-    const isConfirm = await confirmationAlert({
-      labels: { cancel: "Cancel", confirm: "Confirm" },
-      msg: `Are you sure you wnat to delete this court?`,
-    });
-
-    if (isConfirm) {
-      const response = await deleteCourtMutate({ id });
-      notifications.show({
-        message: response.message,
-        title: response.title,
-        color: "green",
-      });
-      queryClient.invalidateQueries({ queryKey: ["court", "court_fetch"] });
-    }
-  };
+  const navigate = useNavigate();
 
   const handleOpenEditModal = () => {
     Modals({
@@ -94,14 +77,13 @@ const CustomerActionBar: React.FC<IProps> = ({ status, id }) => {
             <Edit />
           </Button>
         </Tooltip>
-        <Tooltip label="Delete">
+        <Tooltip label="Customer Details">
           <Button
             variant="default"
             size="compact-md"
-            onClick={async () => await handleDelete()}
-            loading={isDeletePending}
+            onClick={async () => navigate(`/customer/details?id=${id}`)}
           >
-            <Delete />
+            <IconBook />
           </Button>
         </Tooltip>
       </>

@@ -93,6 +93,7 @@ const FInput: React.FC<IProps> = ({
           placeholder={placeholder}
           style={{ width: "100%" }}
           classNames={{ input: classes.input, label: classes.label }}
+          autoComplete="false"
           {...(formHandler as TextInputProps)}
         />
       );

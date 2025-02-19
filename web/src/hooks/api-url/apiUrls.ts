@@ -14,7 +14,7 @@ export const API_URLS = {
   USERS: usersApis,
   ADMIN: adminApis,
   HOLIDAY: holidayApis,
-  ADMIN_CENTRE: adminCentreApis,
+  ADMIN_USER: adminCentreApis,
   ADMIN_COURT: adminCourtApi,
   BOOKINGS: bookingApis,
   ADMIN_BOOKING: bookingApis,

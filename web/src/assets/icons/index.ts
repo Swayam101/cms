@@ -14,6 +14,8 @@ import UploadIcon from "./uploadIcon";
 import DeleteIcon from "./delete";
 import logoNew from "./logo_new.png";
 import Report from "./report";
+import LOGO from "./servesyncLogo.png";
+import ICON from "./servesyncicon.png";
 export const Icons = {
   HeaderLogo: logoNew,
   Headeruser: user,
@@ -32,4 +34,6 @@ export const Icons = {
   UploadIcon,
   DeleteIcon,
   Report,
+  LOGO,
+  ICON,
 };

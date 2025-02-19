@@ -13,6 +13,12 @@ customerRoute.get(
   customerControllers.getAllCustomers
 );
 
+customerRoute.post(
+  "/assign",
+  middlewares.checkAdminAccess,
+  customerControllers.assignCustomers
+);
+
 customerRoute.get(
   "/one",
   middlewares.checkAdminAccess,

@@ -1,3 +1,4 @@
+import { IActionHistory } from "../interfaces/actionHistory.interface";
 import { Slot } from "../utils/slotSelectionLogic";
 
 export interface IUploadErrorsTableData {
@@ -12,8 +13,9 @@ export interface ICustomerData {
   phone: string;
   status: string;
   createdAt: string;
-  assignedTo?: string;
+  assignedTo?: string | { username: string; email: string; status: boolean };
   checked: boolean;
+  statusHistory: IActionHistory[];
 }
 export interface UploadLogTableData {
   totalUploads: number;
@@ -72,27 +74,10 @@ interface IBlockedSlotsForm extends IBlockedSlotsData {
   blockedSlotId?: string;
 }
 
-export interface ICentreForm {
-  centreId?: string;
-  images: [];
-  name: string;
-  description: string;
-  priceCourt: {
-    regular: number;
-    weekend: number;
-  };
-  priceSlot: {
-    regular: number;
-    weekend: number;
-  };
-  openTime: string;
-  closeTime: string;
-  address: string;
-  amenities: string[];
-  location: { lat: number; long: number };
-  inActiveWeekOpenPlay: string[];
-  openPlaySlots: string[];
-  slots: string[];
+export interface IUserForm {
+  username: string;
+  password: string;
+  status: boolean;
 }
 
 export interface ICustomerForm {

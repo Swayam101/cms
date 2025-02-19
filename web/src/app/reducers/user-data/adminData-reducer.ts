@@ -3,6 +3,7 @@ import { IAdminData } from "../../../types";
 
 interface IUser {
   userData: Partial<IAdminData>;
+  role: "user" | "admin";
 }
 
 const initialState: IUser = {
@@ -10,6 +11,7 @@ const initialState: IUser = {
     _id: "",
     username: "",
   },
+  role: "user",
 };
 
 const userDataSlice = createSlice({
@@ -21,8 +23,11 @@ const userDataSlice = createSlice({
       state.userData._id = _id;
       state.userData.username = username;
     },
+    setRole(state, action: PayloadAction<IUser["role"]>) {
+      state.role = action.payload;
+    },
   },
 });
 
-export const { setAdminData } = userDataSlice.actions;
+export const { setAdminData, setRole } = userDataSlice.actions;
 export default userDataSlice.reducer;

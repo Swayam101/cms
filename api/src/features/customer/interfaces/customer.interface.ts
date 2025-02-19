@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
+import { IActionHistory } from "./actionHistory.interface";
 
-type TCustomerStatus = "new" | "paid" | "npc";
+type TCustomerStatus = "new" | "paid" | "npc" | "assigned";
 
 export interface ICustomer extends Document {
   name: string;
@@ -8,4 +9,5 @@ export interface ICustomer extends Document {
   email?: string;
   assignedTo?: ObjectId;
   status?: TCustomerStatus;
+  statusHistory?: IActionHistory[];
 }

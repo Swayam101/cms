@@ -8,7 +8,7 @@ type TProps = {
 };
 const updateAdminStatus = async (data: TProps) => {
   const res: IServerResponse = await request({
-    url: API_URLS.ADMIN.changeStatus,
+    url: API_URLS.USERS.changeStatus,
     method: "POST",
     data: { adminId: data.id, status: data.status },
   });

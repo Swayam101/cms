@@ -1,5 +1,10 @@
-const prefix = "/admin";
+const prefix = "/user";
 export const usersApis = {
   getAllUser: "/user" + "/all",
-  changeStatus: prefix + "/user/status",
+  changeStatus: prefix + "/status",
+  createUser: prefix,
+  assignUserCustomers: "/customer" + "/assign",
+  getUserCustomers: prefix + "/customers/user",
+  getMyCustomers: prefix + "/my/customers",
+  updateCustomerStatus: "/user" + "/my/customer/status",
 };

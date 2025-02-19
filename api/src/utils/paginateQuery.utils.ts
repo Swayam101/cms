@@ -6,7 +6,8 @@ export default async function paginate<T extends Document>(
   filter: FilterQuery<T> = {},
   page: number = 1,
   limit: number = 10,
-  sort: Record<string, SortOrder> = {}
+  sort: Record<string, SortOrder> = {},
+  populate: string | string[] = []
 ): Promise<PaginateResult<T>> {
   try {
     page = Math.max(1, page);
@@ -21,12 +22,13 @@ export default async function paginate<T extends Document>(
 
     const skip = (page - 1) * limit;
 
-    const results = await model
-      .find(filter)
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
-      .exec();
+    let query = model.find(filter).sort(sort).skip(skip).limit(limit);
+
+    if (populate) {
+      query = query.populate(populate);
+    }
+
+    const results = await query.exec();
 
     return {
       page,

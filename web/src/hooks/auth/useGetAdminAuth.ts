@@ -6,9 +6,11 @@ import ROUTES from "../../enum/routes.enum";
 import { store } from "../../app/store";
 import { setAdminData } from "../../app/reducers/user-data/adminData-reducer";
 
-const getAdminData = async () => {
+const getAdminData = async (isUserProfile: boolean) => {
   const res: IServerResponse = await request({
-    url: API_URLS.AUTH_ADMIN.getAdminData,
+    url: isUserProfile
+      ? API_URLS.AUTH_ADMIN.USER_PROFILE
+      : API_URLS.AUTH_ADMIN.getAdminData,
     method: "GET",
   });
 
@@ -19,9 +21,9 @@ const getAdminData = async () => {
   return res;
 };
 
-export const useGetAdminData = () => {
+export const useGetAdminData = (isUserProfile: boolean) => {
   return useQuery({
     queryKey: ["admin", "login"],
-    queryFn: getAdminData,
+    queryFn: () => getAdminData(isUserProfile),
   });
 };

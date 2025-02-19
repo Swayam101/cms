@@ -1,9 +1,13 @@
 enum ROUTES {
   LOGIN = "/login",
+  USER_LOGIN = "/user/login",
   DASHBOARD = "/",
   ADMIN_TABLE_PAGE = "/uploads",
   USER_TABLE_PAGE = "/user",
+  USER_DETAILS = "/user/details",
+  USER_CUSTOMER_PAGE = "/user/customers",
   BULK_BOOKING = "/bulk-booking",
+  CUSTOMER_DETAILS = "/customer/details",
   CENTER_TABLE_PAGE = "/center",
   CUSTOMER_TABLE_PAGE = "/customers",
   REPORT_PAGE = "/report",

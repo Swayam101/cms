@@ -2,10 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../../services/axios.service";
 import { API_URLS } from "../api-url/apiUrls";
 
-const getCentreById = async (id: string) => {
+const getUserById = async (id: string) => {
+  console.log("logging id : ", id);
+
   if (!id) return;
   const response = await request({
-    url: `${API_URLS.ADMIN_CENTRE.GET_CENTRE_BY_ID}/${id}`,
+    url: `${API_URLS.ADMIN_USER.GET_USER_BY_ID}`,
     method: "GET",
     params: {
       id,
@@ -16,7 +18,7 @@ const getCentreById = async (id: string) => {
 
 export default (id: string) => {
   return useQuery({
-    queryKey: ["create centre", id],
-    queryFn: () => getCentreById(id),
+    queryKey: ["create user", id],
+    queryFn: () => getUserById(id),
   });
 };

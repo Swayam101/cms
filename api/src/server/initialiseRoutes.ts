@@ -21,6 +21,6 @@ const registerFeatureRouters = (
 export default (app: express.Application) => {
   app.use(baseRouter);
   registerFeatureRouters(app, auth, "/auth", []);
-  registerFeatureRouters(app, users, "/user", [middlewares.checkAdminAccess]);
+  registerFeatureRouters(app, users, "/user", []);
   registerFeatureRouters(app, customer, "/customer", []);
 };

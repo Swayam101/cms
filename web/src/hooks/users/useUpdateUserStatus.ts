@@ -10,7 +10,7 @@ const updateUserStatus = async (data: TProps) => {
   const res: IServerResponse = await request({
     url: API_URLS.USERS.changeStatus,
     method: "POST",
-    data: { userId: data.id, status: data.status },
+    data: { id: data.id, status: data.status },
   });
   return res;
 };

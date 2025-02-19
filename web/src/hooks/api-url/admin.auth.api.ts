@@ -3,5 +3,6 @@ export const authApis = {
   login: "/auth/admin/login",
   getAdminData: "/auth/admin/profile",
   logout: prefix + "/logout",
-  GET_ROLE: "/auth/",
+  USER_LOGIN: "/auth/user/login",
+  USER_PROFILE: "/auth/user/profile",
 };
