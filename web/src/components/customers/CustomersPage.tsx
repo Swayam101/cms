@@ -7,8 +7,8 @@ import Pencil from "../../assets/icons/pencil";
 import { courtTable } from "../../constants/CustomerTable";
 import useGetAllCustomers from "../../hooks/customer/useGetAllCustomers";
 import { useForm } from "@mantine/form";
-import { Modals } from "../../container/modal/Fmodals";
-import CourtModal from "../../container/modal/CustomerModal/CustomerModal";
+import { Modals } from "../../container/modals/Fmodals";
+import CourtModal from "../../container/modals/CustomerModal/CustomerModal";
 import { IServerResponse } from "../../interfaces/serverResponse.interface";
 import FInput from "../../ui/input/finput/FInput";
 

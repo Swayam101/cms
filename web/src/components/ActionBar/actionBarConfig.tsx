@@ -1,5 +1,5 @@
-import CustomerModal from "../../container/modal/CustomerModal/CustomerModal";
-import UserModal from "../../container/modal/UserModal/UserModal";
+import CustomerModal from "../../container/modals/CustomerModal/CustomerModal";
+import UserModal from "../../container/modals/UserModal/UserModal";
 import { useUpdateAdminStatus } from "../../hooks/admin/useUpdateAdminStatus";
 
 import { useUpdateUserStatus } from "../../hooks/users/useUpdateUserStatus";

@@ -5,14 +5,23 @@ import { request } from "../../services/axios.service";
 type TProps = {
   id: string;
   search: string;
+  statusFilter?: string;
+  freeTrial?: boolean;
 };
-const getCustomerCount = async ({ id, search }: TProps) => {
+const getCustomerCount = async ({
+  id,
+  search,
+  statusFilter,
+  freeTrial,
+}: TProps) => {
   const res: IServerResponse = await request({
     url: API_URLS.USERS.getMyCustomers,
     method: "GET",
     params: {
       id,
       search,
+      status: statusFilter,
+      freeTrial,
     },
   });
   return res;

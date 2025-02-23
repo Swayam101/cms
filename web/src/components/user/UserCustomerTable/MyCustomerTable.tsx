@@ -1,28 +1,38 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import DefaultTable from "../../Dynamic-Table/table/DefaultTable";
 import { IServerResponse } from "../../../interfaces/serverResponse.interface";
 import { courtTable } from "../../../constants/CustomerTable";
-import { Box, Flex } from "@mantine/core";
+import { Box, Flex, Select } from "@mantine/core";
 import { useGetMyCustomers } from "../../../hooks/users/useGetMyCustomers";
 import FInput from "../../../ui/input/finput/FInput";
 import { useForm } from "@mantine/form";
+import CustomerStatuses from "../../../constants/CustomerStatuses";
 
 interface IProps {
   id: string;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  isFreeTrial?: boolean;
 }
 
-const MyCustomerTable: React.FC<IProps> = ({ id, setPage }) => {
+const MyCustomerTable: React.FC<IProps> = ({ id, setPage, isFreeTrial }) => {
   const form = useForm({
     initialValues: {
       search: "",
       statusFilter: "",
     },
   });
+
+  const [statusFilter, setStatusFilter] = useState<undefined | string>(
+    undefined
+  );
+
   const { data, isLoading } = useGetMyCustomers({
     id,
     search: `${form.getValues().search}`,
+    statusFilter,
+    freeTrial: !!isFreeTrial,
   });
+
   const { pagination, results } = useMemo(() => {
     if (!isLoading && data?.data) {
       const cd = data.data.customers;
@@ -41,7 +51,7 @@ const MyCustomerTable: React.FC<IProps> = ({ id, setPage }) => {
   }, [data, isLoading]);
   return (
     <Flex gap={16} direction={"column"}>
-      <Flex>
+      <Flex align={"center"} gap={24}>
         <Box>
           <FInput
             label="Search"
@@ -49,9 +59,18 @@ const MyCustomerTable: React.FC<IProps> = ({ id, setPage }) => {
             formHandler={form.getInputProps("search")}
           />
         </Box>
+        {!isFreeTrial && (
+          <Box>
+            <Select
+              label="Status Filter"
+              data={CustomerStatuses}
+              onChange={(value) => setStatusFilter(value ?? undefined)}
+            />
+          </Box>
+        )}
       </Flex>
       <DefaultTable
-        columns={courtTable(true) as TTableColumns<unknown>[]}
+        columns={courtTable(true, isFreeTrial) as TTableColumns<unknown>[]}
         data={results}
         isLoading={isLoading}
         paginationProps={{

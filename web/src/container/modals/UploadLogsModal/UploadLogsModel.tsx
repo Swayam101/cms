@@ -2,7 +2,6 @@ import { Flex, Group, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { memo, useState } from "react";
 import FButton from "../../../ui/button/FButton";
-import { getAdminInitialValues } from "../../../initial-values/admin.initialValues";
 import { IAdminForm } from "../../../types";
 import { modals } from "@mantine/modals";
 import { useUploadCustomerData } from "../../../hooks/admin/useUploadCustomerData";
@@ -24,7 +23,7 @@ const UploadLogsModel: React.FC<IProps> = ({ isUpload }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const form = useForm<IAdminForm>({
-    initialValues: getAdminInitialValues,
+    initialValues: { file: undefined },
   });
 
   const handleSubmit = async (values: IAdminForm) => {
@@ -128,14 +127,13 @@ const UploadLogsModel: React.FC<IProps> = ({ isUpload }) => {
 
             <div>
               <Text size="xl">Drag CSV file here or click to select</Text>
-              <Text size="sm" color="dimmed" mt={7}>
+              <Text size="sm" c="dimmed" mt={7}>
                 Only CSV files up to 5MB are allowed.
               </Text>
             </div>
           </Group>
         </Dropzone>
 
-        {/* Show uploaded file name */}
         {uploadedFile && (
           <Text size="sm" mt="sm">
             <strong>Uploaded File:</strong> {uploadedFile.name}

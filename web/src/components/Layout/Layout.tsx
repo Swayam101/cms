@@ -82,6 +82,7 @@ const Layout = ({ loading }: { loading: boolean }) => {
         >
           <Box>
             <img
+              alt="logo of company"
               style={{ height: "auto", width: "100%" }}
               src={Assets.Icons.LOGO}
             />
@@ -93,6 +94,16 @@ const Layout = ({ loading }: { loading: boolean }) => {
             Icon={Assets.Icons.dashboard}
             active={router.pathname === ROUTES.DASHBOARD}
           />
+          {isUser ? (
+            <SideBarButton
+              label="Free Trials"
+              link={ROUTES.MY_FREE_TRIALS}
+              Icon={Assets.Icons.Report}
+              active={router.pathname === ROUTES.MY_FREE_TRIALS}
+            />
+          ) : (
+            ""
+          )}
           {!isUser && (
             <NavLink
               leftSection={<Assets.Icons.Manage />}

@@ -8,6 +8,7 @@ import User from "../screens/user/User";
 import Customers from "../screens/customer/Customer";
 import UserDetails from "../screens/user/UserDetails";
 import CustomerDetails from "../screens/customer/CustomerDetails";
+import FreeTrialCustomers from "../screens/free-trials/FreeTrialCustomers";
 
 export const appRouter = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const appRouter = createBrowserRouter([
       {
         path: ROUTES.CUSTOMER_TABLE_PAGE,
         element: <Customers />,
+      },
+      {
+        path: ROUTES.MY_FREE_TRIALS,
+        element: <FreeTrialCustomers />,
       },
     ],
   },

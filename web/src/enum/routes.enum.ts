@@ -8,5 +8,6 @@ enum ROUTES {
   USER_CUSTOMER_PAGE = "/user/customers",
   CUSTOMER_DETAILS = "/customer/details",
   CUSTOMER_TABLE_PAGE = "/customers",
+  MY_FREE_TRIALS = "/my/trials",
 }
 export default ROUTES;

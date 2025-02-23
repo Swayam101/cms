@@ -26,6 +26,11 @@ const CustomerStatusTable: TTableColumns<IActionHistory>[] = [
     ),
   },
   {
+    key: "randki",
+    label: "Note",
+    renderCell: (value) => value.note ?? "N/A",
+  },
+  {
     key: "acfo",
     label: "Action For",
     renderCell: (value) => value.actionFor,

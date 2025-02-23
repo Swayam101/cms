@@ -11,8 +11,8 @@ import Sort from "../../assets/icons/sort";
 import Pencil from "../../assets/icons/pencil";
 
 import DefaultTable from "../Dynamic-Table/table/DefaultTable";
-import UploadLogsModal from "../../container/modal/AdminModal/UploadLogsModel";
-import { Modals } from "../../container/modal/Fmodals";
+import UploadLogsModal from "../../container/modals/UploadLogsModal/UploadLogsModel";
+import { Modals } from "../../container/modals/Fmodals";
 import { UploadLogTable } from "../../constants/UploadLogTable";
 import { useGetAllUploadLogs } from "../../hooks/admin/useGetAllUploadLogs";
 

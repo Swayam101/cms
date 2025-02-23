@@ -6,10 +6,16 @@ import { request } from "../../services/axios.service";
 type TProps = {
   id: string;
   status: string;
+  note?: string;
+  date?: Date;
+  user?: string;
+  isUser: boolean;
 };
 const updateStatus = async (data: TProps) => {
   const res: IServerResponse = await request({
-    url: API_URLS.USERS.updateCustomerStatus,
+    url: data.isUser
+      ? API_URLS.USERS.updateCustomerStatus
+      : API_URLS.ADMIN.UPDATE_STATUS,
     method: "POST",
     data,
   });

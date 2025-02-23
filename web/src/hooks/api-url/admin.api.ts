@@ -7,4 +7,5 @@ export const adminApis = {
   UPLOAD_CUSTOMER: prefix + "/upload",
   GET_ALL_CUSTOMERS: prefix,
   GET_CUSTOMER: prefix + "/one",
+  UPDATE_STATUS: prefix + "/status",
 };

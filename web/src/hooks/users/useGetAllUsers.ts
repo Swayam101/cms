@@ -17,9 +17,10 @@ const getAllUser = async ({ page, sort, search, limit }: TProps) => {
   return res;
 };
 
-export const useGetAllUser = (data: TProps) => {
+export const useGetAllUser = (data: TProps, isAdmin: boolean) => {
   return useQuery({
     queryKey: ["user", "all", data],
     queryFn: () => getAllUser(data),
+    enabled: isAdmin,
   });
 };

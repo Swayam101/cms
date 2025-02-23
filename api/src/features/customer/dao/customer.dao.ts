@@ -49,10 +49,24 @@ const updateCustomer = (data: Partial<ICustomer>) => {
   return customerModels.Customer.findByIdAndUpdate(_id, { ...update });
 };
 
+const addFreeTrialDate = (data: Pick<ICustomer, "freeTrial" | "_id">) => {
+  return customerModels.Customer.findByIdAndUpdate(data._id, {
+    freeTrial: data.freeTrial,
+  });
+};
+
+const assignCustomer = (id: string, assignedTo: string) => {
+  return customerModels.Customer.findByIdAndUpdate(id, {
+    assignedTo,
+  });
+};
+
 export default {
   addCustomer,
   changeCustomerStatus,
   getAllCustomers,
   getCustomerById,
   updateCustomer,
+  addFreeTrialDate,
+  assignCustomer,
 };

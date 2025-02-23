@@ -1,14 +1,21 @@
+import React, { useMemo, useState } from "react";
+
 import { Box, Flex, Group } from "@mantine/core";
-import React, { useState } from "react";
-import FButton from "../../../ui/button/FButton";
 import { useForm, yupResolver } from "@mantine/form";
-import { object, string } from "yup";
-import { modals } from "@mantine/modals";
-import FInput from "../../../ui/input/finput/FInput";
-import { DateInput } from "@mantine/dates";
-import { useUpdateCustomerStatus } from "../../../hooks/users/useUpdateCustomerStatus";
 import { notifications } from "@mantine/notifications";
+import { modals } from "@mantine/modals";
+import { DateInput } from "@mantine/dates";
+
+import { object, string } from "yup";
+
 import { queryClient } from "../../../client/queryClient";
+
+import FButton from "../../../ui/button/FButton";
+import FInput from "../../../ui/input/finput/FInput";
+
+import { useUpdateCustomerStatus } from "../../../hooks/users/useUpdateCustomerStatus";
+import CustomerStatuses from "../../../constants/CustomerStatuses";
+import { useGetAllUser } from "../../../hooks/users/useGetAllUsers";
 
 interface IProps {
   status: string;
@@ -16,10 +23,15 @@ interface IProps {
 }
 
 const ChangeCustomerStatusModal: React.FC<IProps> = ({ status, id }) => {
+  const role = localStorage.getItem("role");
+  const isUser = role === "user";
+
   const form = useForm({
     initialValues: {
       status,
       date: new Date(),
+      note: "",
+      user: "",
     },
     validate: yupResolver(
       object().shape({ status: string().required("status is required") })
@@ -27,15 +39,50 @@ const ChangeCustomerStatusModal: React.FC<IProps> = ({ status, id }) => {
   });
 
   const [isDateVisible, setIsDateVisible] = useState(false);
+  const [isAssignVisible, setIsAssignVisible] = useState(false);
 
   form.watch("status", ({ value }) => {
+    if (value === "assigned" && isUser) {
+      form.setFieldValue("status", "NPC");
+      return notifications.show({
+        message: "user cannot assign customer",
+        color: "red",
+        title: "UNAUTHORISED ACTION",
+      });
+    }
+    setIsAssignVisible(value === "assigned");
     setIsDateVisible(value === "freetrial");
   });
 
   const { mutateAsync, isPending } = useUpdateCustomerStatus();
 
-  const handleSubmit = async (e: { status: string; date: Date }) => {
-    const response = await mutateAsync({ id, status: e.status });
+  const { data, isLoading } = useGetAllUser(
+    {
+      page: 1,
+      limit: 50,
+    },
+    !isUser
+  );
+
+  const users = useMemo(() => {
+    if (!isLoading && data?.data) return data.data.users;
+    return [];
+  }, [data, isLoading]);
+
+  const handleSubmit = async (e: {
+    status: string;
+    date: Date;
+    note?: string;
+    user?: string;
+  }) => {
+    const response = await mutateAsync({
+      id,
+      isUser,
+      status: e.status,
+      note: e.note,
+      date: e.date,
+      user: e.user,
+    });
     if (response.status === "error")
       return notifications.show({
         message: response.message,
@@ -60,17 +107,15 @@ const ChangeCustomerStatusModal: React.FC<IProps> = ({ status, id }) => {
           <FInput
             label="Select Status"
             variant={"select"}
-            data={[
-              { label: "Not pick call", value: "NPC" },
-              { label: "Call Back Later", value: "CBC" },
-              // { label: "Assigned New", value: "assigned" },
-              { label: "Switched off", value: "switchoff" },
-              { label: "Out of Service", value: "outofservice" },
-              { label: "Not Intrested", value: "notintrested" },
-              { label: "Intrested", value: "intrested" },
-              { label: "Free Trial", value: "freetrial" },
-            ]}
+            data={CustomerStatuses}
             formHandler={form.getInputProps("status")}
+          />
+        </Box>
+        <Box>
+          <FInput
+            label="Enter Note"
+            variant="text"
+            formHandler={form.getInputProps("note")}
           />
         </Box>
         {isDateVisible && (
@@ -80,6 +125,19 @@ const ChangeCustomerStatusModal: React.FC<IProps> = ({ status, id }) => {
               {...form.getInputProps("date")}
             />
           </Box>
+        )}
+        {isAssignVisible && (
+          <FInput
+            label="Select User"
+            variant={"select"}
+            data={users.map(
+              ({ _id, username }: { _id: string; username: string }) => ({
+                label: username,
+                value: _id,
+              })
+            )}
+            formHandler={form.getInputProps("user")}
+          />
         )}
         <Group mt="md" justify="end">
           <Flex gap={"md"} maw={"350px"}>
@@ -94,7 +152,7 @@ const ChangeCustomerStatusModal: React.FC<IProps> = ({ status, id }) => {
             <FButton
               variant="filled"
               type="submit"
-              loading={isPending}
+              loading={isPending || isLoading}
               label={"Submit"}
             />
           </Flex>

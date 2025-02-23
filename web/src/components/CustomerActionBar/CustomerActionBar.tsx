@@ -1,8 +1,8 @@
 import { Button, Tooltip } from "@mantine/core";
 import React from "react";
 import { modals } from "@mantine/modals";
-import { Modals } from "../../container/modal/Fmodals";
-import CustomerModal from "../../container/modal/CustomerModal/CustomerModal";
+import { Modals } from "../../container/modals/Fmodals";
+import CustomerModal from "../../container/modals/CustomerModal/CustomerModal";
 import Edit from "../../assets/icons/edit";
 import { useNavigate } from "react-router-dom";
 import { IconBook } from "@tabler/icons-react";

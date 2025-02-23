@@ -6,8 +6,8 @@ import { useSearchParams } from "react-router-dom";
 import useGetUserById from "../../hooks/centre/useGetUserById";
 import UserCustomerTable from "../../components/user/UserCustomerTable/UserCustomerTable";
 import FButton from "../../ui/button/FButton";
-import { Modals } from "../../container/modal/Fmodals";
-import AssignCustomersModal from "../../container/modal/AssignCustomersModal/AssignCustomersModal";
+import { Modals } from "../../container/modals/Fmodals";
+import AssignCustomersModal from "../../container/modals/AssignCustomersModal/AssignCustomersModal";
 import { useAppSelector } from "../../app/hooks";
 import MyCustomerTable from "../../components/user/UserCustomerTable/MyCustomerTable";
 
@@ -15,6 +15,7 @@ const UserDetails: React.FC = () => {
   const [searchParams] = useSearchParams();
 
   const [_page, setPage] = useState(1);
+
   const role = localStorage.getItem("role");
   const isUser = role === "user";
   const currentUserId = useAppSelector((state) => state.userData.userData._id);
@@ -46,6 +47,7 @@ const UserDetails: React.FC = () => {
           text="User Details"
         />
       )}
+
       <Flex align={"flex-end"} gap={36}>
         {!isUser && (
           <UserDetailsCard

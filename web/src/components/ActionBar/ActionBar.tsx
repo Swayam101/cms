@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { notifications } from "@mantine/notifications";
 import { Button, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { confirmationAlert, Modals } from "../../container/modal/Fmodals";
+import { confirmationAlert, Modals } from "../../container/modals/Fmodals";
 import Eye from "../../assets/icons/eye";
 import Edit from "../../assets/icons/edit";
 import EyeDisable from "../../assets/icons/eyedisable";

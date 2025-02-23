@@ -3,4 +3,5 @@ export interface IActionHistory {
   actionFor: "status" | "assigned";
   date: Date;
   action?: string;
+  note?: string;
 }

@@ -2,8 +2,9 @@ import moment from "moment";
 import CustomerActionBar from "../components/CustomerActionBar/CustomerActionBar";
 import { ICustomerData } from "../types";
 import { Chip } from "@mantine/core";
-import { Modals } from "../container/modal/Fmodals";
-import ChangeCustomerStatusModal from "../container/modal/ChangeCustomerStatusModal/ChangeCustomerStatusModal";
+import { Modals } from "../container/modals/Fmodals";
+import ChangeCustomerStatusModal from "../container/modals/ChangeCustomerStatusModal/ChangeCustomerStatusModal";
+import { customerStatusesMap } from "./CustomerStatuses";
 
 export enum ESTATUS_COLORS {
   assigned = "yellow",
@@ -11,8 +12,9 @@ export enum ESTATUS_COLORS {
 }
 
 export const courtTable: (
-  isUser?: boolean
-) => TTableColumns<ICustomerData>[] = (isUser) => {
+  isUser?: boolean,
+  isFreeTrial?: boolean
+) => TTableColumns<ICustomerData>[] = (isUser, isFreeTrial) => {
   const table: TTableColumns<ICustomerData>[] = [
     {
       key: "courtName",
@@ -48,7 +50,11 @@ export const courtTable: (
             });
           }}
         >
-          {value.status}
+          {
+            customerStatusesMap[
+              value.status as keyof typeof customerStatusesMap
+            ]
+          }
         </Chip>
       ),
     },
@@ -60,6 +66,20 @@ export const courtTable: (
         moment(new Date(value.createdAt)).format("DD-MM-YYYY hh:mm A"),
     },
   ];
+  if (isFreeTrial) {
+    table.push({
+      key: "free-trial-date",
+      label: "Trial Date",
+      renderCell: (value) =>
+        moment(new Date(value.freeTrial!.toString())).format("DD-MM-YYYY"),
+    });
+    table.push({
+      key: "note",
+      label: "Note",
+      renderCell: (value) =>
+        value.statusHistory[value.statusHistory.length - 1].note,
+    });
+  }
   if (!isUser) {
     table.push({
       key: "action",

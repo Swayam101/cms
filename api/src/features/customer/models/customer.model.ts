@@ -27,10 +27,12 @@ const schema = new Schema<ICustomer>(
           actionFor: String,
           date: Date,
           action: String,
+          note: String,
         },
       ],
       default: [],
     },
+    freeTrial: Date,
   },
   { timestamps: true }
 );
