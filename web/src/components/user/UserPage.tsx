@@ -11,6 +11,7 @@ import { CONSTANTS } from "../Dynamic-Table/types/constants";
 import { IconEdit } from "@tabler/icons-react";
 import { Modals } from "../../container/modals/Fmodals";
 import UserModal from "../../container/modals/UserModal/UserModal";
+import { IUserForm } from "../../types";
 const UserPage: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,9 +33,26 @@ const UserPage: React.FC = () => {
     });
   };
 
-  const allUser = useMemo(() => {
-    if (data?.data && !isLoading) return data?.data?.users as [];
-    return [];
+  const { allUser, pagination } = useMemo(() => {
+    if (data?.data && !isLoading) {
+      const { results, ...pagination } = data.data.users;
+      return { allUser: data?.data?.users.results, pagination } as {
+        allUser: IUserForm[];
+        pagination: any;
+      };
+    }
+    return {
+      allUser: [],
+      pagination: {
+        page: 1,
+        limit: 10,
+        totalPages: 1,
+        totalDocuments: 0,
+      },
+    } as {
+      allUser: [];
+      pagination: any;
+    };
   }, [data, isLoading]);
 
   return (
@@ -66,10 +84,7 @@ const UserPage: React.FC = () => {
         isLoading={isLoading}
         paginationProps={{
           setPage: setActivePage,
-          totalPages: Math.ceil(
-            (data?.data?.pageData?.total ?? 1) / CONSTANTS.PAGE_LIMIT
-          ),
-          totalDocuments: data?.data?.pageData?.total ?? 0,
+          ...pagination,
         }}
       />
     </Box>

@@ -1,10 +1,8 @@
-import { ObjectId } from "mongodb";
-import customerModels from "../../customer/models/customer.models";
+import { FilterQuery } from "mongoose";
 import { IUser } from "../interfaces/user.interface";
 import UserModels from "../models/user.models";
 import { IPaging } from "../../../interface/paging.interface";
-import { ICustomer } from "../../customer/interfaces/customer.interface";
-import { FilterQuery } from "mongoose";
+import paginate from "../../../utils/paginateQuery.utils";
 
 const createUser = (
   username: IUser["username"],
@@ -29,8 +27,17 @@ const updateUserStatus = (id: string, status: boolean) => {
   return UserModels.User.findByIdAndUpdate(id, { $set: { status } });
 };
 
-const getAllUsers = () => {
-  return UserModels.User.find();
+const getAllUsers = (filter: FilterQuery<IUser>, { limit, page }: IPaging) => {
+  return paginate(
+    UserModels.User as any,
+    filter,
+    page,
+    limit,
+    {
+      updatedAt: -1,
+    },
+    []
+  );
 };
 
 const editUser = (user: IUser) => {
