@@ -15,11 +15,14 @@ const UserPage: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 1000);
-  const { data, isLoading } = useGetAllUser({
-    page: activePage,
-    search: debouncedSearchQuery.trim(),
-    limit: CONSTANTS.PAGE_LIMIT,
-  });
+  const { data, isLoading } = useGetAllUser(
+    {
+      page: activePage,
+      search: debouncedSearchQuery.trim(),
+      limit: CONSTANTS.PAGE_LIMIT,
+    },
+    true
+  );
 
   const handleCreateNewUser = () => {
     Modals({
