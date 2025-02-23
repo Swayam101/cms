@@ -18,4 +18,5 @@ export const customerStatusesMap = {
   intrested: "Intrested",
   freetrial: "Free Trial",
   assigned: "Newly Assigned",
+  new: "New",
 };
