@@ -5,7 +5,7 @@ import { FilterQuery } from "mongoose";
 import { ICustomer } from "../../customer/interfaces/customer.interface";
 
 export default async (req: Request, res: Response) => {
-  const { id, search, status, freeTrial } = req.query;
+  const { id, search, status, freeTrial, page, limit } = req.query;
   const currentUserId = res.locals.userId;
 
   const userId = `${id?.toString()}`;
@@ -29,8 +29,8 @@ export default async (req: Request, res: Response) => {
   }
 
   const customers = await customerDaos.customer.getAllCustomers(filter, {
-    page: 1,
-    limit: 25,
+    page: parseInt(page?.toString() ?? "1"),
+    limit: parseInt(limit?.toString() ?? "25"),
   });
 
   return JsonResponse(res, {

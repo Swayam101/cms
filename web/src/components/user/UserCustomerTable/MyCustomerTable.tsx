@@ -12,9 +12,15 @@ interface IProps {
   id: string;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   isFreeTrial?: boolean;
+  page?: number;
 }
 
-const MyCustomerTable: React.FC<IProps> = ({ id, setPage, isFreeTrial }) => {
+const MyCustomerTable: React.FC<IProps> = ({
+  id,
+  setPage,
+  isFreeTrial,
+  page,
+}) => {
   const form = useForm({
     initialValues: {
       search: "",
@@ -31,6 +37,8 @@ const MyCustomerTable: React.FC<IProps> = ({ id, setPage, isFreeTrial }) => {
     search: `${form.getValues().search}`,
     statusFilter,
     freeTrial: !!isFreeTrial,
+    limit: 25,
+    page,
   });
 
   const { pagination, results } = useMemo(() => {

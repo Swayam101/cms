@@ -14,7 +14,7 @@ import MyCustomerTable from "../../components/user/UserCustomerTable/MyCustomerT
 const UserDetails: React.FC = () => {
   const [searchParams] = useSearchParams();
 
-  const [_page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const role = localStorage.getItem("role");
   const isUser = role === "user";
@@ -76,7 +76,7 @@ const UserDetails: React.FC = () => {
       {isUser ? (
         <MyCustomerTable id={`${actualId}`} setPage={setPage} />
       ) : (
-        <UserCustomerTable id={`${actualId}`} setPage={setPage} />
+        <UserCustomerTable page={page} id={`${actualId}`} setPage={setPage} />
       )}
     </Flex>
   );

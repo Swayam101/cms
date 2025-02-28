@@ -7,12 +7,16 @@ type TProps = {
   search: string;
   statusFilter?: string;
   freeTrial?: boolean;
+  page?: number;
+  limit?: number;
 };
 const getCustomerCount = async ({
   id,
   search,
   statusFilter,
   freeTrial,
+  page,
+  limit,
 }: TProps) => {
   const res: IServerResponse = await request({
     url: API_URLS.USERS.getMyCustomers,
@@ -22,6 +26,8 @@ const getCustomerCount = async ({
       search,
       status: statusFilter,
       freeTrial,
+      page,
+      limit,
     },
   });
   return res;

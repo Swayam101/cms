@@ -9,9 +9,10 @@ import FTypography from "../../../ui/typography/FTypography";
 interface IProps {
   id: string;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
 }
 
-const UserCustomerTable: React.FC<IProps> = ({ id, setPage }) => {
+const UserCustomerTable: React.FC<IProps> = ({ id, setPage, page }) => {
   const { data, isLoading } = useGetUserCustomers({ id });
   const { pagination, results } = useMemo(() => {
     if (!isLoading && data?.data) {
