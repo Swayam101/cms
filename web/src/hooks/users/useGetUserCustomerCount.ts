@@ -4,6 +4,8 @@ import { IServerResponse } from "../../interfaces/serverResponse.interface";
 import { request } from "../../services/axios.service";
 type TProps = {
   id: string;
+  page: number;
+  limit: number;
 };
 const getCustomerCount = async ({ id }: TProps) => {
   const res: IServerResponse = await request({

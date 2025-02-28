@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const UserCustomerTable: React.FC<IProps> = ({ id, setPage, page }) => {
-  const { data, isLoading } = useGetUserCustomers({ id });
+  const { data, isLoading } = useGetUserCustomers({ id, page, limit: 25 });
   const { pagination, results } = useMemo(() => {
     if (!isLoading && data?.data) {
       const cd = data.data.customers;
