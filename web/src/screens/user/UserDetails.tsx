@@ -74,7 +74,7 @@ const UserDetails: React.FC = () => {
         )}
       </Flex>
       {isUser ? (
-        <MyCustomerTable id={`${actualId}`} setPage={setPage} />
+        <MyCustomerTable id={`${actualId}`} setPage={setPage} page={page} />
       ) : (
         <UserCustomerTable page={page} id={`${actualId}`} setPage={setPage} />
       )}
