@@ -78,7 +78,9 @@ const MyCustomerTable: React.FC<IProps> = ({
         )}
       </Flex>
       <DefaultTable
-        columns={courtTable(true, isFreeTrial) as TTableColumns<unknown>[]}
+        columns={
+          courtTable(true, isFreeTrial, true) as TTableColumns<unknown>[]
+        }
         data={results}
         isLoading={isLoading}
         paginationProps={{

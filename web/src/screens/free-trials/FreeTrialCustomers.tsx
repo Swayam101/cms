@@ -8,7 +8,7 @@ interface IProps {}
 
 const FreeTrialCustomers: React.FC<IProps> = () => {
   const currentUserId = useAppSelector((state) => state.userData.userData._id);
-  const [_page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   return (
     <Flex direction={"column"} gap={24}>
@@ -17,7 +17,12 @@ const FreeTrialCustomers: React.FC<IProps> = () => {
         text="Free Trial Customers"
         variant={"oswald500"}
       />
-      <MyCustomerTable id={`${currentUserId}`} setPage={setPage} isFreeTrial />
+      <MyCustomerTable
+        id={`${currentUserId}`}
+        setPage={setPage}
+        page={page}
+        isFreeTrial
+      />
     </Flex>
   );
 };

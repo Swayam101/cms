@@ -13,8 +13,9 @@ export enum ESTATUS_COLORS {
 
 export const courtTable: (
   isUser?: boolean,
-  isFreeTrial?: boolean
-) => TTableColumns<ICustomerData>[] = (isUser, isFreeTrial) => {
+  isFreeTrial?: boolean,
+  isNote?: boolean
+) => TTableColumns<ICustomerData>[] = (isUser, isFreeTrial, isNote) => {
   const table: TTableColumns<ICustomerData>[] = [
     {
       key: "courtName",
@@ -73,6 +74,8 @@ export const courtTable: (
       renderCell: (value) =>
         moment(new Date(value.freeTrial!.toString())).format("DD-MM-YYYY"),
     });
+  }
+  if (isNote) {
     table.push({
       key: "note",
       label: "Note",
