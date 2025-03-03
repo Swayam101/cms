@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DefaultTable from "../../Dynamic-Table/table/DefaultTable";
 import { IServerResponse } from "../../../interfaces/serverResponse.interface";
 import { courtTable } from "../../../constants/CustomerTable";
@@ -40,6 +40,10 @@ const MyCustomerTable: React.FC<IProps> = ({
     limit: 25,
     page,
   });
+
+  useEffect(() => {
+    page = 1;
+  }, [statusFilter]);
 
   const { pagination, results } = useMemo(() => {
     if (!isLoading && data?.data) {

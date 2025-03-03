@@ -28,16 +28,9 @@ const getAllCustomers = (
   filter: FilterQuery<ICustomer>,
   { limit, page }: IPaging
 ) => {
-  return paginate(
-    customerModels.Customer as any,
-    filter,
-    page,
-    limit,
-    {
-      updatedAt: -1,
-    },
-    ["assignedTo"]
-  );
+  return paginate(customerModels.Customer as any, filter, page, limit, {}, [
+    "assignedTo",
+  ]);
 };
 
 const getCustomerById = (id: string) => {
